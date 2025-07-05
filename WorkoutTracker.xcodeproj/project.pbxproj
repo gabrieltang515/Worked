@@ -16,6 +16,7 @@
 		53FD23E42BDE74B700AB41E4 /* WorkoutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FD23E32BDE74B700AB41E4 /* WorkoutsView.swift */; };
 		53FD23E62BDE8CA100AB41E4 /* WorkoutTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FD23E52BDE8CA100AB41E4 /* WorkoutTrackerApp.swift */; };
 		53FD23E82BE3C53800AB41E4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FD23E72BE3C53800AB41E4 /* SettingsView.swift */; };
+		E1199B502DF428E6007DD5D7 /* SyncToiCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1199B4F2DF428DD007DD5D7 /* SyncToiCloud.swift */; };
 		E16A785F2C3BF1620072143F /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A785E2C3BF1620072143F /* ToolbarView.swift */; };
 		E16A78612C3C27BC0072143F /* LocationFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A78602C3C27BC0072143F /* LocationFile.swift */; };
 		E16D63812C3D16430001E34B /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16D63802C3D16430001E34B /* MapModel.swift */; };
@@ -24,11 +25,15 @@
 		E176D7932C4A3F4600A665C7 /* WorkoutTypeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E176D7922C4A3F4600A665C7 /* WorkoutTypeSetting.swift */; };
 		E176D7972C4BB3DC00A665C7 /* WorkoutTypeSettingPartOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = E176D7962C4BB3DC00A665C7 /* WorkoutTypeSettingPartOne.swift */; };
 		E176D7992C4BB5EA00A665C7 /* WorkoutTypeSettingPartTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E176D7982C4BB5EA00A665C7 /* WorkoutTypeSettingPartTwo.swift */; };
+		E17C3F862E18E2F400C9C2E5 /* WorkoutTemplateSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17C3F852E18E2F400C9C2E5 /* WorkoutTemplateSetting.swift */; };
 		E1817DB22C4E308600AB7CAB /* FavouritesSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1817DB12C4E308600AB7CAB /* FavouritesSetting.swift */; };
 		E1817DB42C4E456D00AB7CAB /* SwipeActionsAndAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1817DB32C4E456D00AB7CAB /* SwipeActionsAndAlerts.swift */; };
 		E1817DB62C52433600AB7CAB /* SwipeDownToDismissModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1817DB52C52433600AB7CAB /* SwipeDownToDismissModifier.swift */; };
 		E187A0202C3681F200D6AD12 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E187A01F2C3681F200D6AD12 /* BottomBarView.swift */; };
-		E18ECA132C58B4D00015F9B7 /* KeyboardReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18ECA122C58B4D00015F9B7 /* KeyboardReadable.swift */; };
+		E1BBF0D72DD8565100424719 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBF0D62DD8565100424719 /* DayDetailView.swift */; };
+		E1ED016E2E030E0000F842C6 /* PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ED016D2E030DFA00F842C6 /* PushNotifications.swift */; };
+		E1ED01712E03116200F842C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ED01702E03115E00F842C6 /* AppDelegate.swift */; };
+		E1EFE0B12CFED689006BAB2D /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EFE0B02CFED689006BAB2D /* CalendarView.swift */; };
 		E1F222F32C579DCD00DB8CA9 /* SwipeActionsAndAlertsModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F222F22C579DCD00DB8CA9 /* SwipeActionsAndAlertsModifiers.swift */; };
 		E1F222F52C57D73100DB8CA9 /* WorkoutsViewHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F222F42C57D73100DB8CA9 /* WorkoutsViewHStack.swift */; };
 /* End PBXBuildFile section */
@@ -44,6 +49,8 @@
 		53FD23E32BDE74B700AB41E4 /* WorkoutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsView.swift; sourceTree = "<group>"; };
 		53FD23E52BDE8CA100AB41E4 /* WorkoutTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTrackerApp.swift; sourceTree = "<group>"; };
 		53FD23E72BE3C53800AB41E4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E1199B4E2DEF5C7C007DD5D7 /* WorkoutTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutTracker.entitlements; sourceTree = "<group>"; };
+		E1199B4F2DF428DD007DD5D7 /* SyncToiCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncToiCloud.swift; sourceTree = "<group>"; };
 		E16A785E2C3BF1620072143F /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		E16A78602C3C27BC0072143F /* LocationFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFile.swift; sourceTree = "<group>"; };
 		E16D637F2C3D15BA0001E34B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -53,11 +60,15 @@
 		E176D7922C4A3F4600A665C7 /* WorkoutTypeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTypeSetting.swift; sourceTree = "<group>"; };
 		E176D7962C4BB3DC00A665C7 /* WorkoutTypeSettingPartOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTypeSettingPartOne.swift; sourceTree = "<group>"; };
 		E176D7982C4BB5EA00A665C7 /* WorkoutTypeSettingPartTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTypeSettingPartTwo.swift; sourceTree = "<group>"; };
+		E17C3F852E18E2F400C9C2E5 /* WorkoutTemplateSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTemplateSetting.swift; sourceTree = "<group>"; };
 		E1817DB12C4E308600AB7CAB /* FavouritesSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesSetting.swift; sourceTree = "<group>"; };
 		E1817DB32C4E456D00AB7CAB /* SwipeActionsAndAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionsAndAlerts.swift; sourceTree = "<group>"; };
 		E1817DB52C52433600AB7CAB /* SwipeDownToDismissModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeDownToDismissModifier.swift; sourceTree = "<group>"; };
 		E187A01F2C3681F200D6AD12 /* BottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
-		E18ECA122C58B4D00015F9B7 /* KeyboardReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardReadable.swift; sourceTree = "<group>"; };
+		E1BBF0D62DD8565100424719 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		E1ED016D2E030DFA00F842C6 /* PushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotifications.swift; sourceTree = "<group>"; };
+		E1ED01702E03115E00F842C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E1EFE0B02CFED689006BAB2D /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		E1F222F22C579DCD00DB8CA9 /* SwipeActionsAndAlertsModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionsAndAlertsModifiers.swift; sourceTree = "<group>"; };
 		E1F222F42C57D73100DB8CA9 /* WorkoutsViewHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsViewHStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,16 +103,21 @@
 		53FD23CC2BDBE08500AB41E4 /* WorkoutTracker */ = {
 			isa = PBXGroup;
 			children = (
+				E1199B4E2DEF5C7C007DD5D7 /* WorkoutTracker.entitlements */,
 				E16D637F2C3D15BA0001E34B /* Info.plist */,
 				E1817DB52C52433600AB7CAB /* SwipeDownToDismissModifier.swift */,
+				E1ED01702E03115E00F842C6 /* AppDelegate.swift */,
 				E1F222F22C579DCD00DB8CA9 /* SwipeActionsAndAlertsModifiers.swift */,
 				53FD23E52BDE8CA100AB41E4 /* WorkoutTrackerApp.swift */,
+				E1199B4F2DF428DD007DD5D7 /* SyncToiCloud.swift */,
+				E1ED016D2E030DFA00F842C6 /* PushNotifications.swift */,
 				53FD23CF2BDBE08500AB41E4 /* ContentView.swift */,
+				E1EFE0B02CFED689006BAB2D /* CalendarView.swift */,
+				E1BBF0D62DD8565100424719 /* DayDetailView.swift */,
 				53FD23E32BDE74B700AB41E4 /* WorkoutsView.swift */,
 				E1F222F42C57D73100DB8CA9 /* WorkoutsViewHStack.swift */,
 				E176D78E2C48CF9500A665C7 /* EditWorkoutView.swift */,
 				53FD23DF2BDBE2ED00AB41E4 /* AddWorkout.swift */,
-				E18ECA122C58B4D00015F9B7 /* KeyboardReadable.swift */,
 				E16A785E2C3BF1620072143F /* ToolbarView.swift */,
 				E16A78602C3C27BC0072143F /* LocationFile.swift */,
 				53FD23E12BDCE42500AB41E4 /* WorkoutView.swift */,
@@ -113,6 +129,7 @@
 				E176D7922C4A3F4600A665C7 /* WorkoutTypeSetting.swift */,
 				E176D7962C4BB3DC00A665C7 /* WorkoutTypeSettingPartOne.swift */,
 				E176D7982C4BB5EA00A665C7 /* WorkoutTypeSettingPartTwo.swift */,
+				E17C3F852E18E2F400C9C2E5 /* WorkoutTemplateSetting.swift */,
 				E1817DB12C4E308600AB7CAB /* FavouritesSetting.swift */,
 				53FD23D12BDBE09000AB41E4 /* Assets.xcassets */,
 				53FD23D32BDBE09000AB41E4 /* Preview Content */,
@@ -132,9 +149,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		53FD23C92BDBE08500AB41E4 /* WorkoutTracker */ = {
+		53FD23C92BDBE08500AB41E4 /* Worked */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 53FD23D82BDBE09000AB41E4 /* Build configuration list for PBXNativeTarget "WorkoutTracker" */;
+			buildConfigurationList = 53FD23D82BDBE09000AB41E4 /* Build configuration list for PBXNativeTarget "Worked" */;
 			buildPhases = (
 				53FD23C62BDBE08500AB41E4 /* Sources */,
 				53FD23C72BDBE08500AB41E4 /* Frameworks */,
@@ -144,7 +161,7 @@
 			);
 			dependencies = (
 			);
-			name = WorkoutTracker;
+			name = Worked;
 			productName = WorkoutTracker;
 			productReference = 53FD23CA2BDBE08500AB41E4 /* Worked.app */;
 			productType = "com.apple.product-type.application";
@@ -157,7 +174,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1520;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					53FD23C92BDBE08500AB41E4 = {
 						CreatedOnToolsVersion = 15.2;
@@ -177,7 +194,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				53FD23C92BDBE08500AB41E4 /* WorkoutTracker */,
+				53FD23C92BDBE08500AB41E4 /* Worked */,
 			);
 		};
 /* End PBXProject section */
@@ -201,14 +218,15 @@
 			files = (
 				53FD23E82BE3C53800AB41E4 /* SettingsView.swift in Sources */,
 				53FD23E62BDE8CA100AB41E4 /* WorkoutTrackerApp.swift in Sources */,
+				E1EFE0B12CFED689006BAB2D /* CalendarView.swift in Sources */,
 				E176D7992C4BB5EA00A665C7 /* WorkoutTypeSettingPartTwo.swift in Sources */,
 				E1F222F52C57D73100DB8CA9 /* WorkoutsViewHStack.swift in Sources */,
 				E1817DB42C4E456D00AB7CAB /* SwipeActionsAndAlerts.swift in Sources */,
 				E1F222F32C579DCD00DB8CA9 /* SwipeActionsAndAlertsModifiers.swift in Sources */,
-				E18ECA132C58B4D00015F9B7 /* KeyboardReadable.swift in Sources */,
 				E176D7932C4A3F4600A665C7 /* WorkoutTypeSetting.swift in Sources */,
 				E16A785F2C3BF1620072143F /* ToolbarView.swift in Sources */,
 				E1817DB22C4E308600AB7CAB /* FavouritesSetting.swift in Sources */,
+				E17C3F862E18E2F400C9C2E5 /* WorkoutTemplateSetting.swift in Sources */,
 				53FD23D02BDBE08500AB41E4 /* ContentView.swift in Sources */,
 				E176D7912C4A3E4B00A665C7 /* AppearanceSetting.swift in Sources */,
 				E187A0202C3681F200D6AD12 /* BottomBarView.swift in Sources */,
@@ -216,8 +234,12 @@
 				E16D63812C3D16430001E34B /* MapModel.swift in Sources */,
 				E16A78612C3C27BC0072143F /* LocationFile.swift in Sources */,
 				E1817DB62C52433600AB7CAB /* SwipeDownToDismissModifier.swift in Sources */,
+				E1ED016E2E030E0000F842C6 /* PushNotifications.swift in Sources */,
+				E1BBF0D72DD8565100424719 /* DayDetailView.swift in Sources */,
 				E176D78F2C48CF9500A665C7 /* EditWorkoutView.swift in Sources */,
+				E1ED01712E03116200F842C6 /* AppDelegate.swift in Sources */,
 				53FD23DC2BDBE0C700AB41E4 /* Workout.swift in Sources */,
+				E1199B502DF428E6007DD5D7 /* SyncToiCloud.swift in Sources */,
 				53FD23E02BDBE2ED00AB41E4 /* AddWorkout.swift in Sources */,
 				E176D7972C4BB3DC00A665C7 /* WorkoutTypeSettingPartOne.swift in Sources */,
 				53FD23E22BDCE42500AB41E4 /* WorkoutView.swift in Sources */,
@@ -262,6 +284,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = QSVGLU94WM;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -325,6 +348,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = QSVGLU94WM;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -351,6 +375,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WorkoutTracker/WorkoutTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WorkoutTracker/Preview Content\"";
@@ -359,22 +384,29 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WorkoutTracker/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to provide location-based services.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gabrieltang.WorkoutTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gabrieltang.Worked;
 				PRODUCT_NAME = Worked;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -383,6 +415,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WorkoutTracker/WorkoutTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WorkoutTracker/Preview Content\"";
@@ -391,22 +424,29 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WorkoutTracker/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to provide location-based services.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gabrieltang.WorkoutTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gabrieltang.Worked;
 				PRODUCT_NAME = Worked;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -422,7 +462,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		53FD23D82BDBE09000AB41E4 /* Build configuration list for PBXNativeTarget "WorkoutTracker" */ = {
+		53FD23D82BDBE09000AB41E4 /* Build configuration list for PBXNativeTarget "Worked" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				53FD23D92BDBE09000AB41E4 /* Debug */,

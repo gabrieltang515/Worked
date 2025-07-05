@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1530"
+   LastUpgradeVersion = "1630"
    version = "2.2">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,7 +17,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "53FD23C92BDBE08500AB41E4"
                BuildableName = "Worked.app"
-               BlueprintName = "WorkoutTracker"
+               BlueprintName = "Worked"
                ReferencedContainer = "container:WorkoutTracker.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -55,13 +55,23 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "53FD23C92BDBE08500AB41E4"
             BuildableName = "Worked.app"
-            BlueprintName = "WorkoutTracker"
+            BlueprintName = "Worked"
             ReferencedContainer = "container:WorkoutTracker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "IDEPreferLogStreaming"
+            value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "com.apple.CoreData.Logging.stderr "
+            value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "com.apple.coredata.cloudkit.debug"
             value = "YES"
             isEnabled = "YES">
          </EnvironmentVariable>
@@ -79,7 +89,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "53FD23C92BDBE08500AB41E4"
             BuildableName = "Worked.app"
-            BlueprintName = "WorkoutTracker"
+            BlueprintName = "Worked"
             ReferencedContainer = "container:WorkoutTracker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

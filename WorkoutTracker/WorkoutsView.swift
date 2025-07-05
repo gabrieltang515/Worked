@@ -21,8 +21,6 @@ struct WorkoutsView: View {
     @Environment(\.editMode) var editMode
     @Binding var editingWorkout: Bool
     
- /*   var selectedWorkoutForEditing: Workout? {workouts.first}*/ // taken from @Query var workouts: [Workout]
-    
     // For dark mode
     var darkMode: Bool
     
@@ -66,8 +64,6 @@ struct WorkoutsView: View {
     }
     
     // For mark as favourite alert
-//    @State private var markAsFavouriteAlert = false
-//    @State private var unmarkAsFavouriteAlert = false
     
     // For completed alert
     @Binding var showCompleted: Bool
@@ -76,79 +72,16 @@ struct WorkoutsView: View {
 
     var body: some View {
         
-//        HStack {
-//            TextField("Search", text: $searchText)
-//                .padding(7)
-//                .padding(.horizontal, 25)
-//                .background(Color(.systemGray6))
-//                .overlay(
-//                    HStack {
-//                        Image(systemName: "magnifyingglass")
-//                            .foregroundColor(.gray)
-//                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-//                            .padding(.leading, 8)
-//                    
-//                    if !searchText.isEmpty {
-//                        Button(action: {
-//                            self.searchText = ""
-//                        }) {
-//                            Image(systemName: "multiply.circle.fill")
-//                                .foregroundStyle(.gray)
-//                                .padding(.trailing, 8)
-//                        }
-//                    }
-//                }
-//                    
-//            )
-//                .padding(.horizontal, 10)
-//        }
-        
         List {
             ForEach(searchedWorkouts, id: \.id) { workout in
                 WorkoutsView2(workout: workout, selectedTab: $selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, workoutTypes: workoutTypes, darkMode: darkMode, editingWorkout: $editingWorkout, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
-                
-                
-//                .onChange(of: editingWorkout) {
-//                    EditWorkoutView(workout: workout, workoutTypes: workoutTypes, selectedTab: selectedTab)
-//                }
 
                 
             } // ForEach Bracket
-
-
-        
-//            .onDelete(perform: deleteWorkout)
-            
-//            .onChange(of: filterType) {
-//                if workouts.isEmpty {
-//                    editButtonDisabled = true
-//                } else {
-//                    editButtonDisabled = false
-//                }
-//            }
-    
-//            .onAppear() {
-//                if workouts.isEmpty {
-//                    editButtonDisabled = true
-//                } else {
-//                    editButtonDisabled = false
-//                }
-//            }
             
         } // List Bracket
-        
-        
-//        .onAppear() {
-//            if workouts.isEmpty {
-//                editButtonDisabled = true
-//            } else {
-//                editButtonDisabled = false
-//            }
-//        }
-        
 
         .searchable(text: $searchQuery/*, placement: .navigationBarDrawer(displayMode: .always)*/, prompt: "Search by keyword or date")
-    
         
         .overlay {
             if searchedWorkouts.isEmpty && searchQuery.isEmpty == false  {
@@ -173,13 +106,6 @@ struct WorkoutsView: View {
                 }
             }
         }
-        
-        
-
-        
-        
-        
-        
         
     } // var Body Bracket
     
@@ -273,7 +199,6 @@ struct WorkoutsView: View {
     } // Initializer Bracket
     
 
-    
     func deleteWorkout(at offsets: IndexSet) {
         for offset in offsets {
             let workout = workouts[offset]
@@ -285,12 +210,7 @@ struct WorkoutsView: View {
         modelContext.delete(workout)
     }
     
-    
-        
 } // WorkoutsView Struct Bracket
-
-
-
 
 
 struct WorkoutsView2: View {
@@ -310,14 +230,11 @@ struct WorkoutsView2: View {
     
     // For Favouriting
     
-    // where should this originate too?
-    
     @State private var markAsFavouriteAlert = false
     @State private var unmarkAsFavouriteAlert = false
     
     // For marking as complete/incomplete
     
-    // where should this originate??
     @State private var markAsCompletedAlert = false
     @State private var markAsIncompleteAlert = false
     
@@ -337,7 +254,6 @@ struct WorkoutsView2: View {
         .fullScreenCover(isPresented: $editingWorkout) {
             EditWorkoutView(workout: workout, workoutTypes: workoutTypes, selectedTab: $selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, darkMode: darkMode)
         }
-        
         
     } // body bracket
 } // WorkoutsView 2 bracket

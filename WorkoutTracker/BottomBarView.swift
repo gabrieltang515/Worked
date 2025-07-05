@@ -9,6 +9,8 @@
 // white is FFFFFF
 // black is 000000
 // gray is 808080
+
+
 import Foundation
 import SwiftUI
 
@@ -139,7 +141,8 @@ struct BottomBarView: View {
                 }
             }
             
-        } //HStack Bracket
+        }
+        //HStack Bracket
     } // Body Bracket
     
 } // Struct Bracket

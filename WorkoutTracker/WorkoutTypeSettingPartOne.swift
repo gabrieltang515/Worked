@@ -1,9 +1,3 @@
-//
-//  WorkoutTypeSettingPartOne.swift
-//  WorkoutTracker
-//
-//  Created by Gabriel Tang on 20/7/24.
-//
 
 import Foundation
 import SwiftUI

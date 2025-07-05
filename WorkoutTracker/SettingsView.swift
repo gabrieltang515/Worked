@@ -1,10 +1,3 @@
-//
-//  SettingsView.swift
-//  WorkoutTracker
-//
-//  Created by Rafael Soh on 2/5/24.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -23,9 +16,7 @@ struct SettingsView: View {
     
     // For Appearance
     @Binding var darkMode: Bool
-    
-//    let modes = ["System", "Dark", "Light"]
-    
+
     @State private var selectedMode = "System"
     
     // For Workout Types
@@ -37,10 +28,12 @@ struct SettingsView: View {
         newCategory.count < 3
     }
     
+    // For Workout Templates
+    @AppStorage("workoutTemplates") private var workoutTemplatesData: Data = Data()
+    @State private var workoutTemplates: [WorkoutTemplate] = []
+    
     var itemsKey = "itemsKey"
     var itemsKey2 = "itemsKey2"
-    
-    // For zeng? Required?
     
     var body: some View {
         NavigationStack {
@@ -68,26 +61,40 @@ struct SettingsView: View {
                         Text("Favourites")
                     }
 
+                    // Push Notifications
+                    NavigationLink {
+                        PushNotifications()
+                    } label: {
+                        Text("Push Notifications")
+                    }
+                    
                     // Lock with FaceID?
-                    
-                    
-                    
-                    
-                    
+                    NavigationLink {
+                        Text("Lock with FaceID")
+                    } label: {
+                        Text("Lock with FaceID")
+                    }
+
                 } // Section 1 Bracket
                 
+                // Workout Templates Section
+                Section("Workout Templates") {
+                    NavigationLink {
+                        WorkoutTemplateSetting(templates: $workoutTemplates)
+                    } label: {
+                        Text("Manage Workout Templates")
+                    }
+                }
                 
                 // Data Section
                 Section("Data") {
                     NavigationLink {
-                        Text("Coming Soon")
-                            .font(.title2)
+                        SyncToiCloud()
                     } label: {
                         Text("Sync to iCloud")
                     }
                     
                 } // Section 2 Bracket
-                
                 
             } // Outmost Form Bracket
             .toolbar {
@@ -99,56 +106,27 @@ struct SettingsView: View {
             }
             
             .navigationBarTitleDisplayMode(.inline)
-            
-            BottomBarView(selectedTab: $selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, showingCalendar: $showingCalendar, showingSettings: $showingSettings, darkMode: $darkMode)
-            
+        
             
         } // Outmost Navigation Stack Bracket
         .preferredColorScheme(darkMode ? .dark: .light)
         .accentColor(darkMode ? .white: .black)
         .monospaced()
         
+        BottomBarView(selectedTab: $selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, showingCalendar: $showingCalendar, showingSettings: $showingSettings, darkMode: $darkMode)
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+        
+        .onAppear {
+            if let decoded = try? JSONDecoder().decode([WorkoutTemplate].self, from: workoutTemplatesData) {
+                workoutTemplates = decoded
+            }
+        }
+        .onChange(of: workoutTemplates) { newTemplates in
+            if let encoded = try? JSONEncoder().encode(newTemplates) {
+                workoutTemplatesData = encoded
+            }
+        }
     } // Body Bracket
-    
-//    func move(from source: IndexSet, to destination: Int) {
-//        workoutTypes.move(fromOffsets: source, toOffset: destination)
-//        saveItems()
-//    }
-//    
-//    func deleteWorkoutTypeTwo(at Index: Int) {
-//        workoutTypes.remove(at: Index)
-//        for workoutType in originalSuggestedWorkoutTypes {
-//            if workoutTypes.contains(workoutType) == false && suggestedWorkoutTypes.contains(workoutType) == false {
-//                suggestedWorkoutTypes.append(workoutType)
-//            }
-//            saveItems()
-//        }
-//    }
-//        
-//    func deleteWorkoutType(at offsets: IndexSet) {
-//        workoutTypes.remove(atOffsets: offsets)
-//        for workoutType in originalSuggestedWorkoutTypes {
-//            if workoutTypes.contains(workoutType) == false && suggestedWorkoutTypes.contains(workoutType) == false {
-//                suggestedWorkoutTypes.append(workoutType)
-//            }
-//        }
-//        saveItems()
-//    }
-//        
-//    func saveItems() {
-//        UserDefaults.standard.set(workoutTypes, forKey: itemsKey)
-//        UserDefaults.standard.set(suggestedWorkoutTypes, forKey: itemsKey2)
-//    }
-//        
-//    func loadItems() {
-//        if let savedWorkoutTypes = UserDefaults.standard.array(forKey: itemsKey) as? [String] {
-//            workoutTypes = savedWorkoutTypes
-//        }
-//            
-//        if let savedSuggestedWorkoutTypes = UserDefaults.standard.array(forKey: itemsKey2) as? [String] {
-//            suggestedWorkoutTypes = savedSuggestedWorkoutTypes
-//        }
-//    }
     
 }// Settings View Struct Bracket
 

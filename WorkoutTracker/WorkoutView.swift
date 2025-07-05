@@ -88,14 +88,8 @@ struct WorkoutView: View {
                         
                         EditButton()
                     }
-
-                    
-                    // change this!!
                 }
                 
-//                .onTapGesture {
-//                    self.hideKeyboard()
-//                }
                 
                 
             } else {
@@ -106,29 +100,9 @@ struct WorkoutView: View {
                                 .padding([.horizontal, .bottom])
                                 .font(.title.bold().monospaced())
                             
-        //                        .clipShape(.rect(cornerRadius: 10))
-        //                        .overlay (
-        //                            RoundedRectangle(cornerRadius: 10)
-        //                                .opacity(0.2)
-        //                        )
-                            
                             Text("Workout Description")
                                 .font(.title3/*.italic()*/.monospaced())
                                 .padding([.horizontal, .top])
-                        
-                            // old workout description
-                            
-                            
-//                            Text(workout.workoutDescription)
-//                                .font(.system(size: 18).monospaced())
-//                                .foregroundStyle(.secondary) // or use secondary colour
-//                                .padding(11)
-//                                .frame(minWidth: 230, idealWidth: 325, maxWidth: 400, minHeight: 65, maxHeight: .infinity, alignment: .center)
-//                                .overlay (
-//                                    RoundedRectangle(cornerRadius: 10)
-//                                        .opacity(0.2)
-//                                    )
-//                                .padding(.horizontal)
                             
                             Text(workout.workoutDescription)
                                 .font(.system(size: 18).monospaced())
@@ -148,10 +122,6 @@ struct WorkoutView: View {
                                     .foregroundStyle(.secondary)
                                     .padding()
                                     .font(.subheadline.monospaced())
-                            
-                                    
-//                            Spacer(minLength: 175)
-                            
 
                         } // VStack Bracket
                     } // Scroll View Bracket
@@ -257,7 +227,6 @@ struct WorkoutView: View {
                 
                     .animation(.easeInOut(duration: 3.0), value: isEditing)
                 
-                
             } // "else" bracket
         } // Navigation Stack bracket
         
@@ -276,10 +245,6 @@ struct WorkoutView: View {
     
     
 } // Workout View Struct Bracket
-
-
-
-
 
 
 //#Preview {
