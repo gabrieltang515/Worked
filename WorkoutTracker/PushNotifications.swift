@@ -9,7 +9,12 @@ struct PushNotifications: View {
                 Toggle("Push Notifications", isOn: $pushEnabled)
             }
         }
-        .navigationTitle("Push Notifications")
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Push Notifications")
+                    .monospaced()
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
     }
 }

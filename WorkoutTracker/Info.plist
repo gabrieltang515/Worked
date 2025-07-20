@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is used to position the map pin</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -16,6 +14,19 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.gabrieltang.workoutdata</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.gabrieltang.Worked.strava</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>Worked</string>
 			</array>
 		</dict>
 	</array>

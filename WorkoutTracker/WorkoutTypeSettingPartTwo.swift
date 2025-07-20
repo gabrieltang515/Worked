@@ -1,10 +1,3 @@
-//
-//  WorkoutTypeSettingPartTwo.swift
-//  WorkoutTracker
-//
-//  Created by Gabriel Tang on 20/7/24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -20,7 +13,6 @@ struct WorkoutTypeSettingPartTwo: View {
         newCategory.count < 3
     }
 
-    
     var itemsKey = "itemsKey"
     var itemsKey2 = "itemsKey2"
     
@@ -40,8 +32,8 @@ struct WorkoutTypeSettingPartTwo: View {
                                 }
                             }
                             saveItems()
-                        } // on tap Gesture
-                } // HStack Bracket
+                        }
+                }
                 .contentShape(Rectangle())
                 
             } // ForEach Bracket
@@ -64,11 +56,8 @@ struct WorkoutTypeSettingPartTwo: View {
                     .disabled(disableField)
                 
                 
-            } // HStack Bracket
-            
-        } // Inner List Bracket
-        // ADD FOCUS THINGY HERE for keyboard
-        
+            }
+        }
         
     }
     

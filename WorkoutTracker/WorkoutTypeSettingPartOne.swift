@@ -32,10 +32,6 @@ struct WorkoutTypeSettingPartOne: View {
                         Label("delete", systemImage: "trash.fill")
                     }
                 }
-//                .onTapGesture(count: 2) {
-//                    Text
-//                }
-                
                 
             } // For Each
           .onMove(perform: move)
@@ -48,7 +44,6 @@ struct WorkoutTypeSettingPartOne: View {
         workoutTypes.remove(at: Index)
         for workoutType in originalSuggestedWorkoutTypes {
             if workoutTypes.contains(workoutType) == false && suggestedWorkoutTypes.contains(workoutType) == false {
-//                suggestedWorkoutTypes.append(workoutType)
                 withAnimation {
                     prepend(workoutType)
                 }

@@ -9,7 +9,12 @@ struct SyncToiCloud: View {
                 Toggle("Sync to iCloud", isOn: $syncEnabled)
             }
         }
-        .navigationTitle("Sync to iCloud")
+        .toolbar {
+            ToolbarItemGroup(placement: .principal) {
+                Text("Sync to iCloud")
+                    .monospaced()
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
     }
 }

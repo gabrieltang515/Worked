@@ -96,7 +96,6 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // handle errors if desired
         print("Location error: \(error.localizedDescription)")
     }
 }
@@ -119,6 +118,11 @@ struct MapPicker: View {
     
     // Used to tell custom text field to scroll to beginning when necessary
     @State private var scrollToStart: Bool = false
+    
+    // Debounce timer for search
+    @State private var searchDebounceTimer: Timer? = nil
+    
+    @State private var hasCenteredOnUser: Bool = false // NEW: track if we've centered on user
     
     init(coordinate: Binding<CLLocationCoordinate2D>) {
         self._coordinate = coordinate
@@ -211,10 +215,16 @@ struct MapPicker: View {
                         if suppressNextSearch {
                             suppressNextSearch = false
                         } else {
-                            performLocalSearch()
+                            // Debounce: Invalidate previous timer and start a new one
+                            searchDebounceTimer?.invalidate()
+                            searchDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                                performLocalSearch()
+                            }
                         }
                     }
                     .onSubmit(of: .search) {
+                        // Invalidate debounce timer and search immediately
+                        searchDebounceTimer?.invalidate()
                         performLocalSearch()
                     }
                 
@@ -237,7 +247,7 @@ struct MapPicker: View {
             .cornerRadius(10)
             .shadow(color: Color.black.opacity(0.25), radius: 4, x: 0, y: 2)
             .padding(.horizontal, 16)
-            .onChange(of: searchQuery) { _ in
+            .onChange(of: searchQuery) { oldValue, newValue in
                 performLocalSearch()
             }
             
@@ -403,10 +413,75 @@ struct MapPicker: View {
                     
                 }
             }
+            .onAppear {
+                // Center on user location if available, only once
+                if let userLoc = locationManager.location?.coordinate, !hasCenteredOnUser {
+                    region.center = userLoc
+                    coordinate = userLoc
+                    hasCenteredOnUser = true
+                    // Try to reverse geocode and prefill searchQuery
+                    let clLocation = CLLocation(latitude: userLoc.latitude, longitude: userLoc.longitude)
+                    CLGeocoder().reverseGeocodeLocation(clLocation, preferredLocale: nil) { placemarks, error in
+                        guard error == nil, let first = placemarks?.first else { return }
+                        var parts: [String] = []
+                        if let name = first.name {
+                            parts.append(name)
+                        } else if let street = first.thoroughfare {
+                            parts.append(street)
+                        }
+                        if let subLocality = first.subLocality {
+                            parts.append(subLocality)
+                        }
+                        if let city = first.locality {
+                            parts.append(city)
+                        }
+                        if let postal = first.postalCode {
+                            parts.append(postal)
+                        }
+                        if let country = first.country {
+                            parts.append(country)
+                        }
+                        let addressString = parts.joined(separator: ", ")
+                        DispatchQueue.main.async {
+                            searchQuery = addressString
+                        }
+                    }
+                }
+            }
             .onReceive(locationManager.$location.compactMap { $0 }) { loc in
-              // Move the binding & map to the new user location
-              coordinate = loc.coordinate
-              region.center = loc.coordinate
+                // Center on user location if not already centered
+                if !hasCenteredOnUser {
+                    coordinate = loc.coordinate
+                    region.center = loc.coordinate
+                    hasCenteredOnUser = true
+                    // Try to reverse geocode and prefill searchQuery
+                    let clLocation = CLLocation(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
+                    CLGeocoder().reverseGeocodeLocation(clLocation, preferredLocale: nil) { placemarks, error in
+                        guard error == nil, let first = placemarks?.first else { return }
+                        var parts: [String] = []
+                        if let name = first.name {
+                            parts.append(name)
+                        } else if let street = first.thoroughfare {
+                            parts.append(street)
+                        }
+                        if let subLocality = first.subLocality {
+                            parts.append(subLocality)
+                        }
+                        if let city = first.locality {
+                            parts.append(city)
+                        }
+                        if let postal = first.postalCode {
+                            parts.append(postal)
+                        }
+                        if let country = first.country {
+                            parts.append(country)
+                        }
+                        let addressString = parts.joined(separator: ", ")
+                        DispatchQueue.main.async {
+                            searchQuery = addressString
+                        }
+                    }
+                }
             }
             
         }
@@ -422,12 +497,14 @@ struct MapPicker: View {
             }
             return
         }
-        
+        // Only show results if not suppressing after selection
+        if suppressNextSearch {
+            suppressNextSearch = false
+            return
+        }
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = searchQuery
-        // Center the search on the map's current region
         request.region = region
-        
         let search = MKLocalSearch(request: request)
         search.start { response, error in
             guard error == nil, let items = response?.mapItems else {
@@ -569,6 +646,7 @@ struct AddWorkout: View {
     var workoutTypes: [String]
     @Binding var showAdded: Bool
     let initialDate: Date
+    var isTemplateMode: Bool = false
     
     // Internal Variables
     @State private var workoutDescription = ""
@@ -601,7 +679,8 @@ struct AddWorkout: View {
         showingUpcoming: Binding<Bool>,
         workoutTypes: [String],
         showAdded: Binding<Bool>,
-        initialDate: Date
+        initialDate: Date,
+        isTemplateMode: Bool = false
     ) {
         self.darkMode = darkMode
         self._selectedTab = selectedTab
@@ -611,38 +690,59 @@ struct AddWorkout: View {
         self.workoutTypes = workoutTypes
         self._showAdded = showAdded
         self.initialDate = initialDate
+        self.isTemplateMode = isTemplateMode
         self._date = State(initialValue: initialDate)
     }
     
     private func addWorkout() {
-        let newWorkout = Workout(
-            workoutDescription: (workoutDescription.isEmpty ? "No description" : workoutDescription),
-            workoutType: workoutType,
-            location: (location.isEmpty ? "Unknown location" : location),
-            date: date,
-            isCompleted: (date <= Date.now ? true : false),
-            favourites: false
-        )
-        modelContext.insert(newWorkout)
-        do {
-            try modelContext.save()
-        } catch {
-            print("Failed to save new workout:", error)
-        }
-        // adjustment of tab
-        if date <= Date.now {
-            selectedTab = "Completed"
-            showingCompleted = true
-            showingLapsed = false
-            showingUpcoming = false
+        if isTemplateMode {
+            // Create a template instead of a workout
+            let newTemplate = WorkoutTemplate(
+                workoutDescription: (workoutDescription.isEmpty ? "No description" : workoutDescription),
+                workoutType: workoutType,
+                location: (location.isEmpty ? "Unknown location" : location)
+            )
+            
+            // Add to templates array
+            templates.append(newTemplate)
+            
+            // Save to @AppStorage
+            if let encoded = try? JSONEncoder().encode(templates) {
+                workoutTemplatesData = encoded
+            }
+            
+            dismiss()
         } else {
-            selectedTab = "Upcoming"
-            showingCompleted = false
-            showingLapsed = false
-            showingUpcoming = true
+
+            let newWorkout = Workout(
+                workoutDescription: (workoutDescription.isEmpty ? "No description" : workoutDescription),
+                workoutType: workoutType,
+                location: (location.isEmpty ? "Unknown location" : location),
+                date: date,
+                isCompleted: (date <= Date.now ? true : false),
+                favourites: false
+            )
+            modelContext.insert(newWorkout)
+            do {
+                try modelContext.save()
+            } catch {
+                print("Failed to save new workout:", error)
+            }
+            // adjustment of tab
+            if date <= Date.now {
+                selectedTab = "Completed"
+                showingCompleted = true
+                showingLapsed = false
+                showingUpcoming = false
+            } else {
+                selectedTab = "Upcoming"
+                showingCompleted = false
+                showingLapsed = false
+                showingUpcoming = true
+            }
+            dismiss()
+            showAdded = true
         }
-        dismiss()
-        showAdded = true
     }
     
     private func useTemplate(_ template: WorkoutTemplate) {
@@ -654,21 +754,34 @@ struct AddWorkout: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    Picker("Mode", selection: $selectedMode) {
-                        ForEach(modes, id: \.self) { mode in
-                            Text(mode)
-                                .monospaced()
+                if !isTemplateMode {
+                    HStack {
+                        Picker("Mode", selection: $selectedMode) {
+                            ForEach(modes, id: \.self) { mode in
+                                Text(mode)
+                                    .monospaced()
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .onAppear {
+                            let fontSize = UIFont.preferredFont(forTextStyle: .body).pointSize
+                            let font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+                            let boldFont = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .bold)
+                            UISegmentedControl.appearance().setTitleTextAttributes([
+                                .font: font
+                            ], for: .normal)
+                            UISegmentedControl.appearance().setTitleTextAttributes([
+                                .font: boldFont
+                            ], for: .selected)
                         }
                     }
-                    .pickerStyle(.segmented)
+                    .frame(maxWidth: 500)
+                    .padding(.horizontal)
+                    .padding(.top, 16)
                 }
-                .frame(maxWidth: 500)
-                .padding(.horizontal)
-                .padding(.top, 16)
                 
                 Group {
-                    if selectedMode == "New" {
+                    if isTemplateMode || selectedMode == "New" {
                         Form {
                             Section {
                                 Picker("Workout Type", selection: $workoutType) {
@@ -689,6 +802,7 @@ struct AddWorkout: View {
                                 HStack {
                                     TextField("Type location", text: $location)
                                         .focused($locationIsFocused)
+                                    
                                     LocationButton {
                                         showingMapPicker = true
                                     }
@@ -702,26 +816,38 @@ struct AddWorkout: View {
                                     .cornerRadius(12)
                                     .padding(2)
                                 }
-                                if !location.isEmpty {
-                                    Text("\(location)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
+                                if location.count > 25 {
+                                    HStack {
+                                        Text("\(location)")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                            .padding(.top, 4)
+                                        Spacer()
+                                        Button(action: { location = "" }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.secondary)
+                                                .imageScale(.small)
+                                        }
+                                        .buttonStyle(.plain)
                                         .padding(.top, 4)
+                                    }
                                 }
                             }
-                            Section("Date and Time") {
-                                HStack {
-                                    Spacer()
-                                    DatePicker("Date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                                        .labelsHidden()
-                                        .padding(3)
-                                    Spacer()
+                            if !isTemplateMode {
+                                Section("Date and Time") {
+                                    HStack {
+                                        Spacer()
+                                        DatePicker("Date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                                            .labelsHidden()
+                                            .padding(3)
+                                        Spacer()
+                                    }
                                 }
                             }
                             Section {
                                 Button(action: addWorkout) {
                                     HStack(spacing: 8) {
-                                        Text("Add")
+                                        Text(isTemplateMode ? "Add Template" : "Add")
                                             .font(.headline.monospaced())
                                             .foregroundColor(darkMode ? .white : .black)
                                         Image(darkMode ? "icons8-download-100-darkmode": "icons8-download-100-lightmode")
@@ -738,33 +864,51 @@ struct AddWorkout: View {
                     } else if selectedMode == "Templates" {
                         Form {
                             Section("Templates") {
-                                ForEach(templates) { template in
-                                    Button(action: {
-                                        if selectedTemplate == template {
-                                            selectedTemplate = nil
-                                            workoutDescription = ""
-                                            workoutType = "Run"
-                                            location = ""
-                                        } else {
-                                            selectedTemplate = template
-                                            useTemplate(template)
-                                        }
-                                    }) {
-                                        HStack {
-                                            VStack(alignment: .leading) {
-                                                Text(template.workoutDescription)
-                                                    .font(.headline)
-                                                Text("Type: \(template.workoutType)")
-                                                    .font(.subheadline)
-                                                    .foregroundColor(.secondary)
-                                                Text("Location: \(template.location)")
-                                                    .font(.subheadline)
-                                                    .foregroundColor(.secondary)
-                                            }
-                                            Spacer()
+                                if templates.isEmpty {
+                                    VStack(spacing: 12) {
+                                        Image(systemName: "dumbbell")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundStyle(.secondary)
+                                        Text("No templates found")
+                                            .font(.headline)
+                                    }
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .padding()
+                                    
+                                } else {
+                                    // Show only the selected template if one is selected, otherwise show all
+                                    ForEach(selectedTemplate == nil ? templates : templates.filter { $0 == selectedTemplate }) { template in
+                                        Button(action: {
                                             if selectedTemplate == template {
-                                                Image(systemName: "checkmark")
-                                                    .foregroundColor(.accentColor)
+                                                selectedTemplate = nil
+                                                workoutDescription = ""
+                                                workoutType = "Run"
+                                                location = ""
+                                            } else {
+                                                selectedTemplate = template
+                                                useTemplate(template)
+                                            }
+                                        }) {
+                                            HStack {
+                                                VStack(alignment: .leading) {
+                                                    Text(template.workoutDescription)
+                                                        .font(.headline)
+                                                        .foregroundStyle(darkMode ? .white : .black)
+                                                    
+                                                    Text("Type: \(template.workoutType)")
+                                                        .font(.subheadline)
+                                                        .foregroundColor(.secondary)
+                                                    Text("Location: \(template.location)")
+                                                        .font(.subheadline)
+                                                        .foregroundColor(.secondary)
+                                                }
+                                                Spacer()
+                                                if selectedTemplate == template {
+                                                    Image(systemName: "checkmark")
+                                                        .foregroundColor(.secondary)
+                                                }
                                             }
                                         }
                                     }
@@ -803,7 +947,7 @@ struct AddWorkout: View {
                                         .cornerRadius(12)
                                         .padding(2)
                                     }
-                                    if !location.isEmpty {
+                                    if location.count > 25 {
                                         Text("\(location)")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
@@ -844,13 +988,21 @@ struct AddWorkout: View {
                 }
             }
             .onAppear {
-                if let decoded = try? JSONDecoder().decode([WorkoutTemplate].self, from: workoutTemplatesData) {
-                    templates = decoded
+                DispatchQueue.global(qos: .userInitiated).async {
+                    if let decoded = try? JSONDecoder().decode([WorkoutTemplate].self, from: workoutTemplatesData) {
+                        DispatchQueue.main.async {
+                            templates = decoded
+                        }
+                    }
                 }
             }
-            .onChange(of: workoutTemplatesData) { newData in
-                if let decoded = try? JSONDecoder().decode([WorkoutTemplate].self, from: newData) {
-                    templates = decoded
+            .onChange(of: workoutTemplatesData) { _oldData, newData in
+                DispatchQueue.global(qos: .userInitiated).async {
+                    if let decoded = try? JSONDecoder().decode([WorkoutTemplate].self, from: newData) {
+                        DispatchQueue.main.async {
+                            templates = decoded
+                        }
+                    }
                 }
             }
             .toolbar {
@@ -876,7 +1028,7 @@ struct AddWorkout: View {
                     }
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("Add Workout")
+                    Text(isTemplateMode ? "Add Template" : "Add Workout")
                         .font(.title3)
                         .padding()
                 }
@@ -886,6 +1038,9 @@ struct AddWorkout: View {
                     .environmentObject(locationManager)
                     .onAppear {
                         locationManager.requestLocation()
+                        if let loc = locationManager.location?.coordinate {
+                            pickerCoordinate = loc
+                        }
                     }
             }
             .onChange(of: pickerCoordinate) { oldCoord, newCoord in
@@ -930,14 +1085,8 @@ struct AddWorkout: View {
             }
         } // Navigation Stack Bracket
         .onAppear {
-            // For map
-            locationManager.requestLocation()
-            if let loc = locationManager.location?.coordinate {
-                pickerCoordinate = loc
-            } else {
-                // fallback to, say, Singapore
-                pickerCoordinate = CLLocationCoordinate2D(latitude: 1.35, longitude: 103.82)
-            }
+            // Only set pickerCoordinate default, don't request location yet
+            pickerCoordinate = CLLocationCoordinate2D(latitude: 1.35, longitude: 103.82)
         }
         .preferredColorScheme(darkMode ? .dark: .light)
     }

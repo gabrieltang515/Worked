@@ -1,10 +1,3 @@
-//
-//  SwipeActionsAndAlertsModifiers.swift
-//  WorkoutTracker
-//
-//  Created by Gabriel Tang on 29/7/24.
-//
-
 import Foundation
 import SwiftUI
 import SwiftData
@@ -22,7 +15,6 @@ struct SwipeActionsAndAlertsModifiers: ViewModifier {
     
     // For Editing ?
     @Binding var editingWorkout: Bool
-//    /*@Binding */var selectedWorkoutForEditing: Workout
     
     // For Favouriting
     @Binding var markAsFavouriteAlert: Bool
@@ -41,7 +33,6 @@ struct SwipeActionsAndAlertsModifiers: ViewModifier {
             // delete
             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                 Button {
-//                        deleteSingleWorkout(workout: workout)
                     showingDeleteAlert.toggle()
                 } label: {
                     Image("icons8-delete-darkmode")
@@ -72,7 +63,6 @@ struct SwipeActionsAndAlertsModifiers: ViewModifier {
                         unmarkAsFavouriteAlert.toggle()
                     }
                     
-//                    dismiss()
                     
                 } label: { //
                     workout.favourites == false ?
@@ -122,7 +112,6 @@ struct SwipeActionsAndAlertsModifiers: ViewModifier {
                 
             }
         
-            
             .alert("Mark as Favourite", isPresented: $markAsFavouriteAlert) {
                 Button("Mark as Favourite", action: { workout.favourites = true })
                 Button("Cancel", role: .cancel) {}
@@ -159,7 +148,3 @@ struct SwipeActionsAndAlertsModifiers: ViewModifier {
         
     }
 }
-
-//extension View {
-//    
-//}

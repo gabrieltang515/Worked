@@ -255,5 +255,5 @@ struct WorkoutsView2: View {
             EditWorkoutView(workout: workout, workoutTypes: workoutTypes, selectedTab: $selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, darkMode: darkMode)
         }
         
-    } // body bracket
+    }
 } // WorkoutsView 2 bracket

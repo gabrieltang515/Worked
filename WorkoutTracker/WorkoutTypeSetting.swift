@@ -14,7 +14,7 @@ struct WorkoutTypeSetting: View {
     
     @Binding var workoutTypes: [String]
     @Binding var suggestedWorkoutTypes: [String]
-    var originalSuggestedWorkoutTypes: [String] // all prewritten workout types basically
+    var originalSuggestedWorkoutTypes: [String] // prewritten workout types basically
     @Binding var newCategory: String
     
     var disableField: Bool {
@@ -29,7 +29,7 @@ struct WorkoutTypeSetting: View {
             NavigationStack {
                 Form {
                     // Categories
-                    Section(header: Text("Categories"), footer: Text("Swipe left to delete category, drag and drop to reorder.").padding(.top, 5)) {
+                    Section(header: Text("Current Categories"), footer: Text("Swipe left to delete category, drag and drop to reorder.").padding(.top, 5)) {
                         WorkoutTypeSettingPartOne(workoutTypes: $workoutTypes, suggestedWorkoutTypes: $suggestedWorkoutTypes, originalSuggestedWorkoutTypes: originalSuggestedWorkoutTypes)
                             .onAppear(perform: loadItems) // might be this causing the lag
                         
@@ -47,7 +47,7 @@ struct WorkoutTypeSetting: View {
                 
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        Text("Workout Categories")
+                        Text("Categories")
                     }
                 }
                 
@@ -55,13 +55,7 @@ struct WorkoutTypeSetting: View {
         
         
     } // Body var
-    
-//    func move(from source: IndexSet, to destination: Int) {
-//        workoutTypes.move(fromOffsets: source, toOffset: destination)
-//        saveItems()
-//    }
-    
-    
+        
     func loadItems() {
         if let savedWorkoutTypes = UserDefaults.standard.array(forKey: itemsKey) as? [String] {
             workoutTypes = savedWorkoutTypes
@@ -71,38 +65,5 @@ struct WorkoutTypeSetting: View {
             suggestedWorkoutTypes = savedSuggestedWorkoutTypes
         }
     }
-    
-//    func saveItems() {
-//        UserDefaults.standard.set(workoutTypes, forKey: itemsKey)
-//        UserDefaults.standard.set(suggestedWorkoutTypes, forKey: itemsKey2)
-//    }
-    
-//    func deleteWorkoutType(at offsets: IndexSet) {
-//        workoutTypes.remove(atOffsets: offsets)
-//        for workoutType in originalSuggestedWorkoutTypes {
-//            if workoutTypes.contains(workoutType) == false && suggestedWorkoutTypes.contains(workoutType) == false {
-//                suggestedWorkoutTypes.append(workoutType)
-//            }
-//        }
-//        saveItems()
-//    }
-    
-//    func deleteWorkoutTypeTwo(at Index: Int) {
-//        workoutTypes.remove(at: Index)
-//        for workoutType in originalSuggestedWorkoutTypes {
-//            if workoutTypes.contains(workoutType) == false && suggestedWorkoutTypes.contains(workoutType) == false {
-////                suggestedWorkoutTypes.append(workoutType)
-//                withAnimation {
-//                    prepend(workoutType)
-//                }
-//            }
-//            saveItems()
-//        }
-//    }
-    
-//    func prepend(_ workoutType: String) {
-//        suggestedWorkoutTypes.insert(workoutType, at: 0)
-//    }
-//    
     
 } // Struct

@@ -1,13 +1,9 @@
-//
-//  WorkoutView.swift
-//  WorkoutTracker
-//
-//  Created by Rafael Soh on 27/4/24.
-//
-
 import SwiftUI
 import SwiftData
-
+import CoreLocation
+import CoreLocationUI
+import MapKit
+import UIKit
 
 struct WorkoutView: View {
     // External Properties
@@ -38,6 +34,11 @@ struct WorkoutView: View {
     @FocusState private var descriptionIsFocused: Bool
     @FocusState private var locationIsFocused: Bool
     
+    // For location functionality (from AddWorkout)
+    @StateObject private var locationManager = LocationManager()
+    @State private var pickerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 1.35, longitude: 103.82)
+    @State private var showingMapPicker = false
+    
     var body: some View {
         NavigationStack {
             if editMode?.wrappedValue.isEditing == true {
@@ -59,15 +60,37 @@ struct WorkoutView: View {
 
 
                     Section("Location") {
-                        TextField("Location", text: $workout.location)
-                            .focused($locationIsFocused)
-//                            .kerning(-1.5)
+                        HStack {
+                            TextField("Type location", text: $workout.location)
+                                .focused($locationIsFocused)
+                            LocationButton {
+                                showingMapPicker = true
+                            }
+                            .labelStyle(.iconOnly)
+                            .symbolVariant(.fill)
+                            .tint(.accentColor)
+                            .foregroundStyle(.white)
+                            .font(.title2)
+                            .frame(width: 36, height: 36)
+                            .background(Color.secondary.opacity(0.1))
+                            .cornerRadius(12)
+                            .padding(2)
+                        }
+                        if workout.location.count > 25 {
+                            Text("\(workout.location)")
+                                .font(.subheadline)                                
+                                .foregroundColor(.secondary)
+                                .padding(.top, 4)   
+                        }
                     }
-                    
                     Section("Date and Time") {
-                        DatePicker("Date and time", selection: $workout.date, in: Date.distantPast...Date.distantFuture)
-                            .labelsHidden()
-                            .padding(3)
+                        HStack {
+                            Spacer()
+                            DatePicker("Date and time", selection: $workout.date, displayedComponents: [.date, .hourAndMinute])
+                                .labelsHidden()
+                                .padding(3)
+                            Spacer()
+                        }
                     }
                 
                 } // Form Bracket
@@ -89,8 +112,63 @@ struct WorkoutView: View {
                         EditButton()
                     }
                 }
-                
-                
+                .sheet(isPresented: $showingMapPicker) {
+                    MapPicker(coordinate: $pickerCoordinate)
+                        .environmentObject(locationManager)
+                        .onAppear {
+                            locationManager.requestLocation()
+                        }
+                }
+                .onChange(of: pickerCoordinate) { oldCoord, newCoord in
+                    let clLocation = CLLocation(latitude: newCoord.latitude, longitude: newCoord.longitude)
+                    CLGeocoder().reverseGeocodeLocation(clLocation, preferredLocale: nil) { placemarks, error in
+                        guard error == nil,
+                              let first = placemarks?.first
+                        else {
+                            DispatchQueue.main.async {
+                                self.workout.location = String(
+                                    format: "%.5f, %.5f",
+                                    newCoord.latitude,
+                                    newCoord.longitude
+                                )
+                            }
+                            return
+                        }
+                        // Building a displayable address from the placemark field
+                        var parts: [String] = []
+                        if let name = first.name {
+                            parts.append(name)
+                        } else if let street = first.thoroughfare {
+                            parts.append(street)
+                        }
+                        if let subLocality = first.subLocality {
+                            parts.append(subLocality)
+                        }
+                        if let city = first.locality {
+                            parts.append(city)
+                        }
+                        if let postal = first.postalCode {
+                            parts.append(postal)
+                        }
+                        if let country = first.country {
+                            parts.append(country)
+                        }
+                        let addressString = parts.joined(separator: ", ")
+                        DispatchQueue.main.async {
+                            self.workout.location = addressString
+                        }
+                    }
+                }
+                .onAppear {
+                    // For map
+                    locationManager.requestLocation()
+                    if let loc = locationManager.location?.coordinate {
+                        pickerCoordinate = loc
+                    } else {
+                        // fallback to, say, Singapore
+                        pickerCoordinate = CLLocationCoordinate2D(latitude: 1.35, longitude: 103.82)
+                    }
+                }
                 
             } else {
                     ScrollView {
@@ -118,13 +196,13 @@ struct WorkoutView: View {
                                 .padding(.horizontal)
 
                                     
-                                Text("\(workout.location), \(workout.formattedDate)")
-                                    .foregroundStyle(.secondary)
-                                    .padding()
-                                    .font(.subheadline.monospaced())
+                            Text("\(workout.location), \(workout.formattedDate)")
+                                .foregroundStyle(.secondary)
+                                .padding()
+                                .font(.subheadline.monospaced())
 
-                        } // VStack Bracket
-                    } // Scroll View Bracket
+                        }
+                    }
                     .preferredColorScheme(.dark)
                     .scrollBounceBehavior(.basedOnSize)
                     .toolbar {
@@ -164,33 +242,9 @@ struct WorkoutView: View {
                                     .scaledToFit()
                             } // Menu bracket
                         } // toolbar item bracket
+
                         
-//                        if selectedTab == "Past Workouts" || selectedTab == "Lapsed" {
-//                            ToolbarItem(placement: .status) {
-//                                Button {
-//                                    workout.isCompleted.toggle()
-//                                    dismiss() // can animation for this maybe???
-//                                } label: {
-//                                    ZStack(alignment: .center) {
-//                                        Text(selectedTab == "Past Workouts" ? "Mark as Incomplete": "Mark as Completed")
-//                                        .frame(width: 150)
-//                                        .foregroundStyle(.primary)
-//                                        .font(.system(size: 15).monospaced())
-//                                        
-//
-//                                        RoundedRectangle(cornerRadius: 10)
-//                                            .stroke(.white, lineWidth: 3)
-//                                            .fill(.clear)
-//                                            .frame(width: 250, height: 35)
-//                                            
-//                                    }
-//                                    .padding(.bottom, 35)
-//                                }
-//                            }
-//                        } // if bracket
-//
-                        
-                    } // toolbar bracket
+                    }
                 
                     .onChange(of: editMode?.wrappedValue, initial: true) {
                         isEditing = false
@@ -246,19 +300,4 @@ struct WorkoutView: View {
     
 } // Workout View Struct Bracket
 
-
-//#Preview {
-//    do {
-//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: Workout.self, configurations: config)
-//        
-//        let example = Workout(workoutDescription: "Nice workout", workoutType: "Run", location: "Serangoon", date: Date.now)
-//        
-//        return WorkoutView(workout: example)
-//            .modelContainer(container)
-//        
-//    } catch {
-//        return Text("Failed to create preview: \(error.localizedDescription)")
-//    }
-//}
 
