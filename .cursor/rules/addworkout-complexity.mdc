@@ -1,0 +1,52 @@
+# AddWorkout View - Complex Form Structure
+
+The [AddWorkout.swift](mdc:WorkoutTracker/AddWorkout.swift) file contains a complex workout creation form with multiple components:
+
+## Main Components
+
+### Custom Text Field
+- `BeginningVisibleTextField` - Custom UIViewRepresentable for text input with scroll-to-beginning functionality
+- Handles keyboard interactions and text positioning
+
+### Location Management
+- `LocationManager` - ObservableObject for CoreLocation services
+- `MapPicker` - Complex map interface with search functionality
+- `MapKitMapView` - UIViewRepresentable wrapper for MKMapView
+- Reverse geocoding for address display
+
+### Template System
+- `WorkoutTemplate` - Codable struct for workout templates
+- Template selection and management
+- Template creation mode vs workout creation mode
+
+### Form Structure
+- Segmented control for "New" vs "Templates" modes
+- Workout type picker
+- Description text editor
+- Location input with map picker integration
+- Date/time picker (for workout mode only)
+- Add button with proper validation
+
+## Key Features
+- Location search with Apple's local search
+- Map integration with pin dropping
+- Template system for quick workout creation
+- Proper keyboard handling
+- Dark/light mode support
+- Form validation and error handling
+
+## State Management
+- Multiple `@State` variables for form fields
+- `@FocusState` for keyboard management
+- `@StateObject` for location services
+- `@AppStorage` for template persistence
+
+## Integration Points
+- SwiftData for workout persistence
+- CoreLocation for location services
+- MapKit for map functionality
+- UserDefaults for template storage
+description:
+globs:
+alwaysApply: false
+---

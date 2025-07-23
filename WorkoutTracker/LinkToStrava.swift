@@ -5,25 +5,19 @@ struct LinkToStrava: View {
     @State private var isAuthenticating = false
     @State private var authResult: String? = nil
     @State private var contextProvider = ContextProvider()
-    @State private var authSession: ASWebAuthenticationSession? // Strong reference to prevent deallocation
+    @State private var authSession: ASWebAuthenticationSession? // Keep a strong reference
 
     // Replace with your actual Strava client ID, client secret, and redirect URI
     private let clientID = "168700"
     private let clientSecret = "be1f9e89c1a8218ff688b3a52295db5b366fe252"
-    private let redirectURI = "https://16a73670e4df.ngrok-free.app/strava-callback" // e.g., "yourapp://strava-callback"
-    private let scope = "read,activity:read_all"
+    private let redirectURI = "https://b0a2403f35c9.ngrok-free.app/strava-callback" // e.g., "yourapp://strava-callback"
+    private let scope = "activity:read_all,profile:read_all"
 
     var body: some View {
         VStack(spacing: 24) {
             Button(action: startStravaLogin) {
                 HStack {
-                    if isAuthenticating {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .scaleEffect(0.8)
-                            .padding(.trailing, 8)
-                    }
-                    Text(isAuthenticating ? "Linking..." : "Link Strava Account")
+                    Text("Link Strava Account")
                         .font(.headline)
                 }
                 .padding()
@@ -32,6 +26,10 @@ struct LinkToStrava: View {
                 .cornerRadius(10)
             }
             .disabled(isAuthenticating)
+
+            if isAuthenticating {
+                ProgressView("Authorizing with Strava...")
+            }
 
             if let result = authResult {
                 Text(result)
@@ -48,26 +46,26 @@ struct LinkToStrava: View {
         let authURL = URL(string:
             "https://www.strava.com/oauth/mobile/authorize?client_id=\(clientID)&redirect_uri=\(redirectURI)&response_type=code&approval_prompt=auto&scope=\(scope)"
         )!
-        
+        // Use your custom scheme ("Worked") for callbackURLScheme
         authSession = ASWebAuthenticationSession(
             url: authURL,
-            callbackURLScheme: "Worked" // Use your custom scheme here
+            callbackURLScheme: "Worked"
         ) { callbackURL, error in
-            DispatchQueue.main.async {
-                isAuthenticating = false
-                if let error = error {
-                    authResult = "Error: \(error.localizedDescription)"
-                    return
-                }
-                guard let callbackURL = callbackURL,
-                      let urlComponents = URLComponents(url: callbackURL, resolvingAgainstBaseURL: false),
-                      let code = urlComponents.queryItems?.first(where: { $0.name == "code" })?.value else {
-                    authResult = "Error: Invalid callback URL"
-                    return
-                }
-                // Exchange code for tokens
-                exchangeCodeForToken(code: code)
+            isAuthenticating = false
+            if let error = error {
+                print("ASWebAuthenticationSession error: \(error.localizedDescription)")
+                authResult = "Error: \(error.localizedDescription)"
+                return
             }
+            guard let callbackURL = callbackURL else {
+                print("No callback URL received.")
+                authResult = "Error: Invalid callback URL (no callback)"
+                return
+            }
+            print("Received callback URL: \(callbackURL)")
+            // If you are using a backend, you will not get the code here, but the app will be opened via .onOpenURL
+            // So just show a message and let .onOpenURL handle the token storage
+            authResult = "Success! Please wait while we finish linking your Strava account."
         }
         authSession?.presentationContextProvider = contextProvider
         authSession?.prefersEphemeralWebBrowserSession = true
@@ -92,25 +90,33 @@ struct LinkToStrava: View {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
+            if let error = error {
+                DispatchQueue.main.async {
                     authResult = "Token Error: \(error.localizedDescription)"
-                    return
                 }
-                guard let data = data,
-                      let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                return
+            }
+            guard let data = data,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                DispatchQueue.main.async {
                     authResult = "Token Error: Invalid response"
-                    return
                 }
-                if let accessToken = json["access_token"] as? String,
-                   let refreshToken = json["refresh_token"] as? String {
-                    // Store tokens securely
-                    KeychainHelper.shared.save(Data(accessToken.utf8), service: "strava", account: "access_token")
-                    KeychainHelper.shared.save(Data(refreshToken.utf8), service: "strava", account: "refresh_token")
+                return
+            }
+            if let accessToken = json["access_token"] as? String,
+               let refreshToken = json["refresh_token"] as? String {
+                // Store tokens securely
+                KeychainHelper.shared.save(Data(accessToken.utf8), service: "strava", account: "access_token")
+                KeychainHelper.shared.save(Data(refreshToken.utf8), service: "strava", account: "refresh_token")
+                DispatchQueue.main.async {
                     authResult = "Success! Strava account linked."
-                } else if let message = json["message"] as? String {
+                }
+            } else if let message = json["message"] as? String {
+                DispatchQueue.main.async {
                     authResult = "Token Error: \(message)"
-                } else {
+                }
+            } else {
+                DispatchQueue.main.async {
                     authResult = "Token Error: Unknown error"
                 }
             }

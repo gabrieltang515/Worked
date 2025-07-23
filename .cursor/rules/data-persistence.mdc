@@ -1,0 +1,57 @@
+# Data Persistence Patterns
+
+## SwiftData Configuration
+The app uses SwiftData with optional iCloud sync configuration in [WorkoutTrackerApp.swift](mdc:WorkoutTracker/WorkoutTrackerApp.swift):
+
+### Model Container Setup
+- Local configuration for basic persistence
+- CloudKit configuration for iCloud sync
+- User preference controls sync behavior
+
+### Core Data Model
+[Workout.swift](mdc:WorkoutTracker/Workout.swift) defines the main workout entity with:
+- Basic workout properties (description, type, location, date)
+- Completion status tracking
+- Favourites system
+- SwiftData annotations for persistence
+
+## Data Storage Patterns
+
+### User Preferences
+- `@AppStorage` for workout types and templates
+- UserDefaults for simple key-value storage
+- Appearance settings and app configuration
+
+### Sensitive Data
+- [KeychainHelper.swift](mdc:WorkoutTracker/KeychainHelper.swift) for secure token storage
+- Strava OAuth tokens stored in Keychain
+- Secure credential management
+
+### Template System
+- Workout templates stored as JSON in UserDefaults
+- `@AppStorage("workoutTemplates")` for template persistence
+- Codable structs for template serialization
+
+## Data Operations
+
+### CRUD Operations
+- Create: AddWorkout form with SwiftData insertion
+- Read: @Query for workout lists and filtering
+- Update: EditWorkoutView for modifying existing workouts
+- Delete: Swipe actions and confirmation dialogs
+
+### Data Filtering
+- Filter by workout type (All, Run, Walk, etc.)
+- Filter by completion status (Completed, Lapsed, Upcoming)
+- Search functionality across workout descriptions
+- Date-based filtering and sorting
+
+### State Management
+- @ModelContext for SwiftData operations
+- @Query for reactive data fetching
+- Proper error handling for data operations
+- Async data loading patterns
+description:
+globs:
+alwaysApply: false
+---

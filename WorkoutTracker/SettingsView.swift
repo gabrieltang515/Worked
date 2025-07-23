@@ -73,15 +73,24 @@ struct SettingsView: View {
     // MARK: – "General" section
     @ViewBuilder private var generalSection: some View {
         Section("General") {
-            NavigationLink { AppearanceSetting(darkMode: $darkMode, selectedMode: $selectedMode) }
-                           label: { Text("Appearance") }
-            NavigationLink { FavouritesSetting(
-                                 selectedTab: selectedTab,
-                                 workoutTypes: workoutTypes,
-                                 darkMode: darkMode)
-                           } label: { Text("Favourites") }
-            NavigationLink { PushNotifications() }
-                           label: { Text("Push Notifications") }
+            NavigationLink {
+                AppearanceSetting(darkMode: $darkMode, selectedMode: $selectedMode)
+                    .onAppear { showBottombar = false }
+                    .onDisappear { showBottombar = true }
+            } label: { Text("Appearance") }
+            NavigationLink {
+                FavouritesSetting(
+                    selectedTab: selectedTab,
+                    workoutTypes: workoutTypes,
+                    darkMode: darkMode)
+                    .onAppear { showBottombar = false }
+                    .onDisappear { showBottombar = true }
+            } label: { Text("Favourites") }
+            NavigationLink {
+                PushNotifications()
+                    .onAppear { showBottombar = false }
+                    .onDisappear { showBottombar = true }
+            } label: { Text("Push Notifications") }
             
 //            NavigationLink { Text("Coming Soon") }
 //                           label: { Text("Lock with Face ID") }
@@ -98,6 +107,8 @@ struct SettingsView: View {
                 originalSuggestedWorkoutTypes: originalSuggestedWorkoutTypes,
                 newCategory: $newCategory
               )
+              .onAppear { showBottombar = false }
+              .onDisappear { showBottombar = true }
             } label: {
               Text("Categories")
             }
@@ -109,6 +120,8 @@ struct SettingsView: View {
                 workoutTypes: $workoutTypes,
                 showBottombar: $showBottombar
               )
+              .onAppear { showBottombar = false }
+              .onDisappear { showBottombar = true }
             } label: {
               Text("Templates")
             }
@@ -120,14 +133,17 @@ struct SettingsView: View {
     // MARK: – "Data" section
     @ViewBuilder private var dataSection: some View {
         Section("Data") {
-            NavigationLink { SyncToiCloud() }
-                           label: { Text("Sync to iCloud") }
-
             NavigationLink {
-                LinkToStrava()
-            } label: {
-                Text("Link to Strava")
-            }
+                SyncToiCloud()
+                    .onAppear { showBottombar = false }
+                    .onDisappear { showBottombar = true }
+            } label: { Text("Sync to iCloud") }
+
+//            NavigationLink {
+//                LinkToStrava()
+//            } label: {
+//                Text("Link to Strava")
+//            }
         }
     }
 
@@ -144,10 +160,12 @@ struct SettingsView: View {
                     showingSettings: $showingSettings,
                     darkMode: $darkMode
                 )
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             } else {
                 EmptyView()
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: showBottombar)
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }

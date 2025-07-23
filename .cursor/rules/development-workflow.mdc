@@ -1,0 +1,66 @@
+# Development Workflow
+
+## Project Structure
+This is an iOS SwiftUI app using SwiftData for persistence. The main project files are in the [WorkoutTracker/](mdc:WorkoutTracker/) directory.
+
+## Key Development Patterns
+
+### Adding New Features
+1. **UI Components**: Create SwiftUI views following existing patterns
+2. **Data Models**: Add SwiftData models in [Workout.swift](mdc:WorkoutTracker/Workout.swift) or create new model files
+3. **Settings**: Add new settings in [SettingsView.swift](mdc:WorkoutTracker/SettingsView.swift) following the existing structure
+4. **Navigation**: Use [BottomBarView.swift](mdc:WorkoutTracker/BottomBarView.swift) patterns for tab navigation
+
+### State Management
+- Use `@State` for local view state
+- Use `@Binding` for parent-child communication
+- Use `@Environment` for dependency injection
+- Use `@StateObject` for observable objects
+- Use `@ModelContext` for SwiftData operations
+
+### Data Persistence
+- SwiftData for core workout data
+- `@AppStorage` for user preferences
+- Keychain for sensitive data (tokens, credentials)
+- UserDefaults for simple key-value storage
+
+### External Integrations
+- Follow OAuth patterns in [LinkToStrava.swift](mdc:WorkoutTracker/LinkToStrava.swift)
+- Use URLSession for network requests
+- Implement proper error handling
+- Store tokens securely in Keychain
+
+### UI/UX Guidelines
+- Support both dark and light modes
+- Use consistent spacing and typography
+- Implement proper accessibility
+- Handle keyboard interactions
+- Use appropriate animations
+
+## Common Tasks
+
+### Adding a New Workout Type
+1. Update workout types array in [ContentView.swift](mdc:WorkoutTracker/ContentView.swift)
+2. Add to settings in [WorkoutTypeSetting.swift](mdc:WorkoutTracker/WorkoutTypeSetting.swift)
+3. Update filtering logic in workout views
+
+### Adding a New Setting
+1. Add to [SettingsView.swift](mdc:WorkoutTracker/SettingsView.swift) navigation
+2. Create new settings view following [AppearanceSetting.swift](mdc:WorkoutTracker/AppearanceSetting.swift) pattern
+3. Use `@AppStorage` for persistence
+
+### Adding Location Features
+1. Follow patterns in [AddWorkout.swift](mdc:WorkoutTracker/AddWorkout.swift)
+2. Use CoreLocation for location services
+3. Implement proper permission handling
+4. Use MapKit for map functionality
+
+### Testing Patterns
+- Test UI components in isolation
+- Test data persistence with SwiftData
+- Test external integrations with mock data
+- Test error handling scenarios
+description:
+globs:
+alwaysApply: false
+---

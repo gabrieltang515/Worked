@@ -60,7 +60,7 @@ struct WorkoutTrackerApp: App {
                     print("🔵 URL path: \(url.path)")
                     print("🔵 URL query: \(url.query ?? "nil")")
                     
-                    if (url.scheme?.lowercased() == "worked") && url.host == "strava-auth" {
+                    if url.scheme == "Worked" && url.host == "strava-auth" {
                         print("✅ URL matches expected scheme and host")
                         
                         if let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {

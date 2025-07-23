@@ -62,8 +62,8 @@ struct CalendarView: View {
     private let calendar = Calendar.current
     @State private var month: Date = .now
     
-    // Optional variable to keep track of the date that user clicks into
-    @State private var selectedDate: Date?
+    // Optional variable to keep track of the date that user clicks into (now a binding)
+    @Binding var selectedDate: Date?
     
     // Boolean that keeps track of whether to open DayDetailView.
     @State private var showingDetail: Bool = false

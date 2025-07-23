@@ -20,6 +20,8 @@ struct CalendarTabView: View {
     let darkMode: Bool
     let workoutTypes: [String]
     
+    @State private var selectedDate: Date? = nil
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -39,7 +41,8 @@ struct CalendarTabView: View {
                     showAdded: $showAdded,
                     searchQuery: $searchQuery,
                     showCompleted: $showCompleted,
-                    showIncomplete: $showIncomplete
+                    showIncomplete: $showIncomplete,
+                    selectedDate: $selectedDate
                 )
                 .toolbar {
                     ToolbarItemGroup(placement: .principal) {
@@ -68,7 +71,7 @@ struct CalendarTabView: View {
                         showingUpcoming: $showingUpcoming,
                         workoutTypes: workoutTypes,
                         showAdded: $showAdded,
-                        initialDate: Date.now
+                        initialDate: selectedDate ?? Date.now
                     )
                 }
             }

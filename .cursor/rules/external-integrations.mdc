@@ -1,0 +1,71 @@
+# External Integrations
+
+## Strava OAuth Integration
+[LinkToStrava.swift](mdc:WorkoutTracker/LinkToStrava.swift) implements OAuth 2.0 flow:
+
+### OAuth Flow
+- Uses ASWebAuthenticationSession for secure web authentication
+- Custom URL scheme "Worked" for callback handling
+- Backend proxy for token exchange (security best practice)
+- Secure token storage in Keychain
+
+### URL Handling
+[WorkoutTrackerApp.swift](mdc:WorkoutTracker/WorkoutTrackerApp.swift) handles OAuth callbacks:
+- `onOpenURL` for processing authentication responses
+- Token extraction and secure storage
+- Notification posting for UI updates
+
+### Security
+- Client credentials stored securely
+- Tokens never exposed in app logs
+- Keychain storage for sensitive data
+- Proper error handling for auth failures
+
+## Push Notifications
+[AppDelegate.swift](mdc:WorkoutTracker/AppDelegate.swift) handles notifications:
+
+### Setup
+- UNUserNotificationCenter delegate implementation
+- Permission requests for alerts, sounds, and badges
+- Device token registration with APNs
+- Server communication for token storage
+
+### Configuration
+- Foreground notification presentation
+- Badge management
+- Sound and alert customization
+- Error handling for registration failures
+
+## Location Services
+[AddWorkout.swift](mdc:WorkoutTracker/AddWorkout.swift) implements location features:
+
+### CoreLocation Integration
+- LocationManager for GPS services
+- Permission handling and user authorization
+- Reverse geocoding for address display
+- Error handling for location failures
+
+### MapKit Integration
+- Custom MapKitMapView wrapper
+- Pin dropping and coordinate selection
+- Local search for places
+- Region management and zoom controls
+
+## iCloud Sync
+[SyncToiCloud.swift](mdc:WorkoutTracker/SyncToiCloud.swift) provides cloud sync:
+
+### SwiftData CloudKit
+- Optional iCloud sync configuration
+- User-controlled sync preferences
+- Automatic conflict resolution
+- Offline capability with local storage
+
+## Network Patterns
+- URLSession for HTTP requests
+- Proper error handling and timeouts
+- JSON serialization/deserialization
+- Async/await patterns for modern concurrency
+description:
+globs:
+alwaysApply: false
+---

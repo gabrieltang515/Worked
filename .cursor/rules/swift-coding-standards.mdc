@@ -1,0 +1,51 @@
+# Swift Coding Standards for WorkoutTracker
+
+## Code Style
+- Use SwiftUI for all UI components
+- Follow Apple's Swift API Design Guidelines
+- Use `@State`, `@Binding`, `@Environment`, `@StateObject` appropriately
+- Prefer `let` over `var` when possible
+- Use meaningful variable and function names
+- Add comments for complex logic
+
+## SwiftUI Best Practices
+- Use `@Environment(\.dismiss)` for dismissing sheets
+- Use `@Environment(\.modelContext)` for SwiftData operations
+- Implement proper state management with `@State` and `@Binding`
+- Use `@FocusState` for keyboard management
+- Prefer `NavigationStack` over `NavigationView`
+
+## Data Management
+- Use SwiftData for persistence: `@ModelContext` and `@Query`
+- Store sensitive data in Keychain using [KeychainHelper.swift](mdc:WorkoutTracker/KeychainHelper.swift)
+- Use `@AppStorage` for user preferences
+- Handle data loading asynchronously
+
+## Location & Maps
+- Use CoreLocation for location services
+- Implement proper location permissions
+- Use MapKit for map functionality
+- Handle location errors gracefully
+
+## External Integrations
+- Use proper OAuth flow for Strava integration
+- Handle network errors and timeouts
+- Store tokens securely in Keychain
+- Implement proper URL scheme handling
+
+## UI/UX Guidelines
+- Support both light and dark modes
+- Use consistent spacing and typography
+- Implement proper accessibility
+- Handle keyboard interactions properly
+- Use appropriate animations and transitions
+
+## Error Handling
+- Use proper error handling for network requests
+- Implement user-friendly error messages
+- Log errors appropriately for debugging
+- Handle edge cases gracefully
+description:
+globs:
+alwaysApply: false
+---

@@ -1,0 +1,61 @@
+# WorkoutTracker iOS App - Project Structure
+
+## Main Entry Points
+- [WorkoutTrackerApp.swift](mdc:WorkoutTracker/WorkoutTrackerApp.swift) - Main app entry point with SwiftData configuration and URL handling
+- [ContentView.swift](mdc:WorkoutTracker/ContentView.swift) - Root view that manages tab navigation and state
+- [AppDelegate.swift](mdc:WorkoutTracker/AppDelegate.swift) - Handles push notifications and app lifecycle
+
+## Core Data Model
+- [Workout.swift](mdc:WorkoutTracker/Workout.swift) - SwiftData model for workout entities
+
+## Main Views by Tab
+- [CompletedView.swift](mdc:WorkoutTracker/CompletedView.swift) - Shows completed workouts
+- [LapsedView.swift](mdc:WorkoutTracker/LapsedView.swift) - Shows missed/lapsed workouts  
+- [UpcomingView.swift](mdc:WorkoutTracker/UpcomingView.swift) - Shows future scheduled workouts
+- [CalendarTabView.swift](mdc:WorkoutTracker/CalendarTabView.swift) - Calendar interface
+- [SettingsView.swift](mdc:WorkoutTracker/SettingsView.swift) - App settings and configuration
+
+## Workout Management
+- [AddWorkout.swift](mdc:WorkoutTracker/AddWorkout.swift) - Complex form for adding new workouts with location picker
+- [EditWorkoutView.swift](mdc:WorkoutTracker/EditWorkoutView.swift) - Edit existing workouts
+- [WorkoutView.swift](mdc:WorkoutTracker/WorkoutView.swift) - Individual workout display
+- [WorkoutsView.swift](mdc:WorkoutTracker/WorkoutsView.swift) - List view for workouts
+- [WorkoutsViewHStack.swift](mdc:WorkoutTracker/WorkoutsViewHStack.swift) - Horizontal workout cards
+
+## Settings & Configuration
+- [WorkoutTypeSetting.swift](mdc:WorkoutTracker/WorkoutTypeSetting.swift) - Manage workout categories
+- [WorkoutTemplateSetting.swift](mdc:WorkoutTracker/WorkoutTemplateSetting.swift) - Manage workout templates
+- [AppearanceSetting.swift](mdc:WorkoutTracker/AppearanceSetting.swift) - Dark/light mode settings
+- [FavouritesSetting.swift](mdc:WorkoutTracker/FavouritesSetting.swift) - Favourite workout management
+
+## Navigation & UI Components
+- [BottomBarView.swift](mdc:WorkoutTracker/BottomBarView.swift) - Tab bar navigation
+- [ToolbarView.swift](mdc:WorkoutTracker/ToolbarView.swift) - Common toolbar components
+- [CalendarView.swift](mdc:WorkoutTracker/CalendarView.swift) - Calendar implementation
+- [DayDetailView.swift](mdc:WorkoutTracker/DayDetailView.swift) - Daily workout details
+
+## External Integrations
+- [LinkToStrava.swift](mdc:WorkoutTracker/LinkToStrava.swift) - Strava OAuth integration
+- [SyncToiCloud.swift](mdc:WorkoutTracker/SyncToiCloud.swift) - iCloud sync functionality
+- [PushNotifications.swift](mdc:WorkoutTracker/PushNotifications.swift) - Notification handling
+
+## Utilities & Helpers
+- [KeychainHelper.swift](mdc:WorkoutTracker/KeychainHelper.swift) - Secure token storage
+- [KeyboardResponder.swift](mdc:WorkoutTracker/KeyboardResponder.swift) - Keyboard management
+- [SwipeActionsAndAlertsModifiers.swift](mdc:WorkoutTracker/SwipeActionsAndAlertsModifiers.swift) - Common UI modifiers
+- [SwipeDownToDismissModifier.swift](mdc:WorkoutTracker/SwipeDownToDismissModifier.swift) - Gesture handling
+
+## Key Features
+- SwiftData for persistence with optional iCloud sync
+- Location services with MapKit integration
+- Strava OAuth integration
+- Push notifications
+- Dark/light mode support
+- Workout templates
+- Favourites system
+- Calendar view
+- Search and filtering
+description:
+globs:
+alwaysApply: false
+---

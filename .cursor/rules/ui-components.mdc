@@ -1,0 +1,68 @@
+# UI Component Patterns
+
+## Navigation Structure
+[BottomBarView.swift](mdc:WorkoutTracker/BottomBarView.swift) provides tab navigation:
+- Custom tab bar with workout-themed icons
+- Active state management
+- Dark/light mode support
+- Consistent navigation patterns
+
+## Common UI Modifiers
+[SwipeActionsAndAlertsModifiers.swift](mdc:WorkoutTracker/SwipeActionsAndAlertsModifiers.swift) contains reusable modifiers:
+- Swipe actions for workout management
+- Alert dialogs for confirmations
+- Consistent styling across the app
+- Animation patterns for user feedback
+
+## Gesture Handling
+[SwipeDownToDismissModifier.swift](mdc:WorkoutTracker/SwipeDownToDismissModifier.swift) provides:
+- Swipe-to-dismiss functionality
+- Custom gesture recognizers
+- Consistent interaction patterns
+- Accessibility support
+
+## Workout Display Components
+[WorkoutView.swift](mdc:WorkoutTracker/WorkoutView.swift) and [WorkoutsView.swift](mdc:WorkoutTracker/WorkoutsView.swift):
+- Individual workout cards
+- List and grid layouts
+- Favourite status indicators
+- Completion status display
+
+## Form Components
+[AddWorkout.swift](mdc:WorkoutTracker/AddWorkout.swift) contains complex form elements:
+- Custom text fields with scroll behavior
+- Location picker with map integration
+- Template selection interface
+- Validation and error states
+
+## Settings Interface
+[SettingsView.swift](mdc:WorkoutTracker/SettingsView.swift) provides:
+- Hierarchical navigation structure
+- Form-based settings
+- Toggle switches and pickers
+- Consistent styling patterns
+
+## Calendar Components
+[CalendarView.swift](mdc:WorkoutTracker/CalendarView.swift) implements:
+- Custom calendar interface
+- Date selection and navigation
+- Workout indicators on dates
+- Month/year navigation
+
+## Toolbar Components
+[ToolbarView.swift](mdc:WorkoutTracker/ToolbarView.swift) provides:
+- Common toolbar actions
+- Search functionality
+- Filter controls
+- Add workout button
+
+## Design System
+- Consistent color scheme support
+- Dark/light mode adaptation
+- Typography hierarchy
+- Spacing and layout consistency
+- Icon usage patterns
+description:
+globs:
+alwaysApply: false
+---
