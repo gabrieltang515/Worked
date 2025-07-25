@@ -29,6 +29,7 @@ struct UpcomingView: View {
     let loadItems: () -> Void
     
     @EnvironmentObject var keyboard: KeyboardResponder
+    @State private var now: Date = Date()
     
     var body: some View {
         NavigationStack {
@@ -59,7 +60,7 @@ struct UpcomingView: View {
                 }
                 
                 ZStack {
-                    WorkoutsView(filterType: filterTypeUpcoming, sortOrder: sortOrder, showingCompletedOnly: showingCompleted, date: Date.now, darkMode: darkMode, selectedTab: $selectedTab, selectedTabString: selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, workoutTypes: workoutTypes, disableButton: $disabledEditButton, searchQuery: $searchQuery, showingAddWorkout: $showingAddWorkout, editingWorkout: $editingWorkout, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
+                    WorkoutsView(filterType: filterTypeUpcoming, sortOrder: sortOrder, showingCompletedOnly: showingCompleted, date: now, darkMode: darkMode, selectedTab: $selectedTab, selectedTabString: selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, workoutTypes: workoutTypes, disableButton: $disabledEditButton, searchQuery: $searchQuery, showingAddWorkout: $showingAddWorkout, editingWorkout: $editingWorkout, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
                     
                         .navigationBarTitleDisplayMode(.inline)
                     
@@ -287,6 +288,10 @@ struct UpcomingView: View {
                         } // VStack
                     }
                 }
+            }
+            .onAppear { now = Date() }
+            .onReceive(Timer.publish(every: 10, on: .main, in: .common).autoconnect()) { _ in
+                now = Date()
             }
             
             if !keyboard.isKeyboardVisible {

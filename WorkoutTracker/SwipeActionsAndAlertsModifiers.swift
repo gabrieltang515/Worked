@@ -83,7 +83,9 @@ struct SwipeActionsAndAlertsModifiers: ViewModifier {
                 
                 
                 // Completion
-                if selectedTab == "Completed" || selectedTab == "Lapsed" || selectedTab == "Settings" {
+                // Only allow marking as complete/incomplete in Completed and Lapsed tabs.
+                // This is enforced to prevent marking upcoming workouts as complete/incomplete.
+                if selectedTab == "Completed" || selectedTab == "Lapsed" {
                     Button {
                     
 //                        workout.isCompleted.toggle()

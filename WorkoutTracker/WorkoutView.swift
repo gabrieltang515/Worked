@@ -8,11 +8,9 @@ import UIKit
 struct WorkoutView: View {
     // External Properties
     @Bindable var workout: Workout
-    
-    // need selectedTab to determine whether to show mark as completed
-    var selectedTab: String
     var workoutTypes: [String]
     var darkMode: Bool
+    var selectedTab: String
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
@@ -20,8 +18,8 @@ struct WorkoutView: View {
     
     // to show "zeng" alerts when a workout is deleted/mark as complete (or incomplete) / when duplicated (coming soon)
     @Binding var showDeleted: Bool
-    @Binding var showCompleted: Bool
-    @Binding var showIncomplete: Bool
+    @Binding var showCompleted: Bool // Remove this if not used elsewhere
+    @Binding var showIncomplete: Bool // Remove this if not used elsewhere
     
     // Internal Properties
     // Edit mode and alerts
@@ -63,19 +61,29 @@ struct WorkoutView: View {
                         HStack {
                             TextField("Type location", text: $workout.location)
                                 .focused($locationIsFocused)
-                            LocationButton {
+                            
+                            Button(action: {
                                 showingMapPicker = true
+                            }) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.blue)
+                                        .frame(width: 36, height: 36)
+
+                                    Image(systemName: "location.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 18, height: 18)
+                                        .foregroundColor(.white)
+                                }
                             }
-                            .labelStyle(.iconOnly)
-                            .symbolVariant(.fill)
-                            .tint(.accentColor)
-                            .foregroundStyle(.white)
-                            .font(.title2)
-                            .frame(width: 36, height: 36)
-                            .background(Color.secondary.opacity(0.1))
-                            .cornerRadius(12)
+                            .buttonStyle(.plain)
+                            .shadow(radius: 2)
                             .padding(2)
+                            .accessibilityLabel("Open Map Picker")
+
                         }
+                        
                         if workout.location.count > 25 {
                             Text("\(workout.location)")
                                 .font(.subheadline)                                
@@ -94,7 +102,7 @@ struct WorkoutView: View {
                     }
                 
                 } // Form Bracket
-                .preferredColorScheme(.dark)
+                .preferredColorScheme(darkMode ? .dark : .light)
                 .scrollBounceBehavior(.basedOnSize)
                 .toolbar {
                     ToolbarItemGroup(placement: .topBarTrailing) {
@@ -113,7 +121,7 @@ struct WorkoutView: View {
                     }
                 }
                 .sheet(isPresented: $showingMapPicker) {
-                    MapPicker(coordinate: $pickerCoordinate)
+                    MapPicker(coordinate: $pickerCoordinate, selectedAddress: $workout.location)
                         .environmentObject(locationManager)
                         .onAppear {
                             locationManager.requestLocation()
@@ -169,6 +177,20 @@ struct WorkoutView: View {
                         pickerCoordinate = CLLocationCoordinate2D(latitude: 1.35, longitude: 103.82)
                     }
                 }
+                .onChange(of: editMode?.wrappedValue) { oldValue, newValue in
+                    if newValue == .inactive {
+                        if workout.date <= Date.now {
+                            workout.isCompleted = true
+                        } else {
+                            workout.isCompleted = false
+                        }
+                        do {
+                            try modelContext.save()
+                        } catch {
+                            print("Failed to save workout changes: \(error)")
+                        }
+                    }
+                }
                 
             } else {
                     ScrollView {
@@ -203,7 +225,7 @@ struct WorkoutView: View {
 
                         }
                     }
-                    .preferredColorScheme(.dark)
+                    .preferredColorScheme(darkMode ? .dark : .light)
                     .scrollBounceBehavior(.basedOnSize)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
@@ -225,13 +247,12 @@ struct WorkoutView: View {
                                     showingDeleteAlert = true
                                 }
                                 
+                                // Only show mark as complete/incomplete in Completed and Lapsed tabs.
                                 if selectedTab == "Completed" || selectedTab == "Lapsed" {
                                     Button(selectedTab == "Completed" ? "Mark as Incomplete": "Mark as Completed", systemImage: selectedTab == "Completed" ? "bookmark.slash" : "bookmark") {
                                         selectedTab == "Completed" ? showingIncompleteAlert.toggle() : showingCompletedAlert.toggle()
 //                                        workout.isCompleted.toggle()
 //                                        dismiss()
-                                        
-                                        
                                     }
                                 }
 
@@ -296,7 +317,6 @@ struct WorkoutView: View {
         modelContext.delete(workout)
         dismiss()
     }
-    
     
 } // Workout View Struct Bracket
 

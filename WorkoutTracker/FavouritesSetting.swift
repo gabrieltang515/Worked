@@ -11,7 +11,6 @@ import SwiftData
 
 struct FavouritesSetting: View {
     @Query var workouts: [Workout]
-    var selectedTab: String
     var workoutTypes: [String]
     var darkMode: Bool
     
@@ -54,7 +53,7 @@ struct FavouritesSetting: View {
             } else {
                 List {
                     ForEach(favouriteWorkouts, id: \.id) { workout in
-                        FavouritesSetting2(workout: workout, selectedTab: selectedTab, workoutTypes: workoutTypes, darkMode: darkMode, editingWorkout: $editingWorkout, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
+                        FavouritesSetting2(workout: workout, workoutTypes: workoutTypes, darkMode: darkMode, editingWorkout: $editingWorkout, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
                         
                     } // For each
                 } // List
@@ -84,7 +83,6 @@ struct FavouritesSetting: View {
 
 struct FavouritesSetting2: View {
     var workout: Workout
-    var selectedTab: String
     var workoutTypes: [String]
     var darkMode: Bool
     
@@ -92,7 +90,7 @@ struct FavouritesSetting2: View {
     @Binding var showDeleted: Bool
     @Binding var showCompleted: Bool
     @Binding var showIncomplete: Bool
-
+    
     @State private var showingDeleteAlert = false
     
     @State private var markAsCompletedAlert = false
@@ -107,7 +105,7 @@ struct FavouritesSetting2: View {
     
     var body: some View {
         NavigationLink {
-            WorkoutView(workout: workout, selectedTab: selectedTab, workoutTypes: workoutTypes, darkMode: darkMode, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
+            WorkoutView(workout: workout, workoutTypes: workoutTypes, darkMode: darkMode, selectedTab: "Completed", showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
         } label: {
             HStack(spacing: 15) {
                 VStack {
@@ -143,8 +141,11 @@ struct FavouritesSetting2: View {
             
         } // Label Bracket
         
-        .modifier(SwipeActionsAndAlertsModifiers(workout: workout, showingDeleteAlert: $showingDeleteAlert, showDeleted: $showDeleted, editingWorkout: $editingWorkout, markAsFavouriteAlert: $markAsFavouriteAlert, unmarkAsFavouriteAlert: $unmarkAsFavouriteAlert, selectedTab: selectedTab, markAsCompletedAlert: $markAsCompletedAlert, markAsIncompleteAlert: $markAsIncompleteAlert, showCompleted: $showCompleted, showIncomplete: $showIncomplete))
+        .modifier(SwipeActionsAndAlertsModifiers(workout: workout, showingDeleteAlert: $showingDeleteAlert, showDeleted: $showDeleted, editingWorkout: $editingWorkout, markAsFavouriteAlert: $markAsFavouriteAlert, unmarkAsFavouriteAlert: $unmarkAsFavouriteAlert, selectedTab: "Completed", markAsCompletedAlert: $markAsCompletedAlert, markAsIncompleteAlert: $markAsIncompleteAlert, showCompleted: $showCompleted, showIncomplete: $showIncomplete))
         
+        .fullScreenCover(isPresented: $editingWorkout) {
+            EditWorkoutView(workout: workout, workoutTypes: workoutTypes, selectedTab: .constant("Completed"), showingCompleted: $showCompleted, showingLapsed: .constant(false), showingUpcoming: .constant(false), darkMode: darkMode)
+        }
         
     }
 }

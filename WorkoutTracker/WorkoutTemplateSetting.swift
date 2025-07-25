@@ -280,7 +280,7 @@ struct EditWorkoutTemplateView: View {
                 showBottombar = true
             }
             .sheet(isPresented: $showingMapPicker) {
-                MapPicker(coordinate: $pickerCoordinate)
+                MapPicker(coordinate: $pickerCoordinate, selectedAddress: $location)
                     .environmentObject(locationManager)
                     .onAppear {
                         locationManager.requestLocation()

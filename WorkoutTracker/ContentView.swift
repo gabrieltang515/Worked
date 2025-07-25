@@ -145,6 +145,7 @@ struct ContentView: View {
                 workoutTypes: workoutTypes,
                 loadItems: loadItems
             )
+            .id(selectedTab) // Force refresh on tab switch
             
         case "Calendar":
             CalendarTabView(

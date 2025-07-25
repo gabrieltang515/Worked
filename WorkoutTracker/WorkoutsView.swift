@@ -69,14 +69,23 @@ struct WorkoutsView: View {
     @Binding var showCompleted: Bool
     @Binding var showIncomplete: Bool
     
+    // Remove tabViewModel
+    // @StateObject var tabViewModel = WorkoutTabViewModel(selectedTab: "Completed", showCompleted: false, showIncomplete: false)
 
     var body: some View {
         
         List {
             ForEach(searchedWorkouts, id: \.id) { workout in
-                WorkoutsView2(workout: workout, selectedTab: $selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, workoutTypes: workoutTypes, darkMode: darkMode, editingWorkout: $editingWorkout, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
-
-                
+                WorkoutsView2(
+                    workout: workout,
+                    workoutTypes: workoutTypes,
+                    darkMode: darkMode,
+                    editingWorkout: $editingWorkout,
+                    showDeleted: $showDeleted,
+                    showCompleted: $showCompleted,
+                    showIncomplete: $showIncomplete,
+                    selectedTabString: selectedTabString // pass tab context
+                )
             } // ForEach Bracket
             
         } // List Bracket
@@ -139,7 +148,7 @@ struct WorkoutsView: View {
                 }, sort: sortOrder)
             case "Upcoming":
                 _workouts = Query(filter: #Predicate<Workout> { workout in
-                    (workout.inNoFilter == true) && (workout.date > date) && (workout.isCompleted == false)
+                    (workout.inNoFilter == true) && (workout.date > date)
                 }, sort: sortOrder)
             case "Lapsed":
                 _workouts = Query(filter: #Predicate<Workout> { workout in
@@ -161,41 +170,20 @@ struct WorkoutsView: View {
                 _workouts = Query(filter: #Predicate<Workout> { workout in
                     (workout.workoutType.contains(filterType)) && (workout.date <= date) && (workout.isCompleted == false)
                 }, sort: sortOrder)
+            
+            case "Upcoming":
+                _workouts = Query(filter: #Predicate<Workout> { workout in
+                    (workout.workoutType.contains(filterType)) && (workout.date > date)
+                }, sort: sortOrder)
+            
             default:
                 _workouts = Query(filter: #Predicate<Workout> { workout in
-                    (workout.workoutType.contains(filterType)) && (workout.date > date) && (workout.isCompleted == false)
+                    (workout.workoutType.contains(filterType)) && (workout.date > date)
                 }, sort: sortOrder)
             }
         }
 
-        
-//        if filterType == "All" &&  selectedTab == "Past Workouts" {
-//            _workouts = Query(filter: #Predicate<Workout> { workout in
-//                (workout.inNoFilter == true) && (workout.date <= date) && (workout.isCompleted == true)
-//            }, sort: sortOrder)
-//        } else if filterType == "All" && selectedTab == "Upcoming" {
-//            _workouts = Query(filter: #Predicate<Workout> { workout in
-//                (workout.inNoFilter == true) && (workout.date > date) && (workout.isCompleted == false)
-//            }, sort: sortOrder)
-//        } else if filterType == "All" && selectedTab == "Lapsed" {
-//            _workouts = Query(filter: #Predicate<Workout> { workout in
-//                (workout.inNoFilter == true) && (workout.date <= date) && (workout.isCompleted == false)
-//            }, sort: sortOrder)
-//        } else if filterType != "All" && selectedTab == "Past Workouts" {
-//            _workouts = Query(filter: #Predicate<Workout> { workout in
-//                (workout.workoutType.contains(filterType)) &&
-//                (workout.date <= date) && (workout.isCompleted == true)
-//            }, sort: sortOrder)
-//        } else if filterType != "All" && selectedTab == "Lapsed" {
-//            _workouts = Query(filter: #Predicate<Workout> { workout in
-//                (workout.workoutType.contains(filterType)) && (workout.date <= date) && (workout.isCompleted == false)
-//            }, sort: sortOrder)
-//        } else {
-//            _workouts = Query(filter: #Predicate<Workout> { workout in
-//                (workout.workoutType.contains(filterType)) && (workout.date > date) && (workout.isCompleted == false)
-//            }, sort: sortOrder)
-//        }
-    
+
     } // Initializer Bracket
     
 
@@ -215,11 +203,6 @@ struct WorkoutsView: View {
 
 struct WorkoutsView2: View {
     var workout: Workout
-    @Binding var selectedTab: String
-    @Binding var showingCompleted: Bool
-    @Binding var showingLapsed: Bool
-    @Binding var showingUpcoming: Bool
-    
     var workoutTypes: [String]
     var darkMode: Bool
     @Binding var editingWorkout: Bool
@@ -240,20 +223,46 @@ struct WorkoutsView2: View {
     
     @Binding var showCompleted: Bool
     @Binding var showIncomplete: Bool
+    var selectedTabString: String // new
     
     
     var body: some View {
         NavigationLink {
-            WorkoutView(workout: workout, selectedTab: selectedTab, workoutTypes: workoutTypes, darkMode: darkMode, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)
+            WorkoutView(
+                workout: workout,
+                workoutTypes: workoutTypes,
+                darkMode: darkMode,
+                selectedTab: selectedTabString, // pass tab context
+                showDeleted: $showDeleted,
+                showCompleted: $showCompleted,
+                showIncomplete: $showIncomplete
+            )
         } label: {
             WorkoutsViewHStack(workout: workout, darkMode: darkMode)
-        } // Label Bracket
-        
-        .modifier(SwipeActionsAndAlertsModifiers(workout: workout, showingDeleteAlert: $showingDeleteAlert, showDeleted: $showDeleted, editingWorkout: $editingWorkout, markAsFavouriteAlert: $markAsFavouriteAlert, unmarkAsFavouriteAlert: $unmarkAsFavouriteAlert, selectedTab: selectedTab, markAsCompletedAlert: $markAsCompletedAlert, markAsIncompleteAlert: $markAsIncompleteAlert, showCompleted: $showCompleted, showIncomplete: $showIncomplete))
-        
-        .fullScreenCover(isPresented: $editingWorkout) {
-            EditWorkoutView(workout: workout, workoutTypes: workoutTypes, selectedTab: $selectedTab, showingCompleted: $showingCompleted, showingLapsed: $showingLapsed, showingUpcoming: $showingUpcoming, darkMode: darkMode)
         }
-        
+        .modifier(SwipeActionsAndAlertsModifiers(
+            workout: workout,
+            showingDeleteAlert: $showingDeleteAlert,
+            showDeleted: $showDeleted,
+            editingWorkout: $editingWorkout,
+            markAsFavouriteAlert: $markAsFavouriteAlert,
+            unmarkAsFavouriteAlert: $unmarkAsFavouriteAlert,
+            selectedTab: selectedTabString, // pass tab context
+            markAsCompletedAlert: $markAsCompletedAlert,
+            markAsIncompleteAlert: $markAsIncompleteAlert,
+            showCompleted: $showCompleted,
+            showIncomplete: $showIncomplete
+        ))
+        .fullScreenCover(isPresented: $editingWorkout) {
+            EditWorkoutView(
+                workout: workout,
+                workoutTypes: workoutTypes,
+                selectedTab: .constant(selectedTabString),
+                showingCompleted: $showCompleted,
+                showingLapsed: .constant(false),
+                showingUpcoming: .constant(false),
+                darkMode: darkMode
+            )
+        }
     }
 } // WorkoutsView 2 bracket

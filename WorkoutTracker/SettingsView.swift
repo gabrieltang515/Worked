@@ -72,7 +72,7 @@ struct SettingsView: View {
 
     // MARK: – "General" section
     @ViewBuilder private var generalSection: some View {
-        Section("General") {
+        Section(header: Text("General")) {
             NavigationLink {
                 AppearanceSetting(darkMode: $darkMode, selectedMode: $selectedMode)
                     .onAppear { showBottombar = false }
@@ -80,7 +80,6 @@ struct SettingsView: View {
             } label: { Text("Appearance") }
             NavigationLink {
                 FavouritesSetting(
-                    selectedTab: selectedTab,
                     workoutTypes: workoutTypes,
                     darkMode: darkMode)
                     .onAppear { showBottombar = false }

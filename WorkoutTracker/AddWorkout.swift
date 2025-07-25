@@ -40,6 +40,7 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
 // --- MapPicker and MapKitMapView refactor start ---
 
 struct MapPicker: View {
+    @Binding var selectedAddress: String
     @EnvironmentObject private var locationManager: LocationManager
     @Binding var coordinate: CLLocationCoordinate2D
     @Environment(\.dismiss) var dismiss
@@ -56,8 +57,9 @@ struct MapPicker: View {
     @State private var showSettingsAlert: Bool = false
     @State private var animatePanel: Bool = false
 
-    init(coordinate: Binding<CLLocationCoordinate2D>) {
+    init(coordinate: Binding<CLLocationCoordinate2D>, selectedAddress: Binding<String>) {
         self._coordinate = coordinate
+        self._selectedAddress = selectedAddress
         let initial = coordinate.wrappedValue
         self._region = State(initialValue:
             MKCoordinateRegion(
@@ -372,13 +374,15 @@ struct MapPicker: View {
                       let first = placemarks?.first
                 else {
                     DispatchQueue.main.async {
-                        self.suppressNextSearch = true
-                        self.searchQuery = String(
+                        let fallback = String(
                             format: "%.5f, %.5f",
                             newCoord.latitude,
                             newCoord.longitude
                         )
-                        self.showingResults = false // Hide suggestions after pin move
+                        self.suppressNextSearch = true
+                        self.searchQuery = fallback
+                        self.selectedAddress = fallback
+                        self.showingResults = false
                     }
                     return
                 }
@@ -405,7 +409,8 @@ struct MapPicker: View {
                 DispatchQueue.main.async {
                     self.suppressNextSearch = true
                     self.searchQuery = addressString
-                    self.showingResults = false // Hide suggestions after pin move
+                    self.selectedAddress = addressString
+                    self.showingResults = false
                 }
             }
         }
@@ -590,6 +595,8 @@ struct AddWorkout: View {
     @StateObject private var locationManager = LocationManager()
     @State private var pickerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 1.35, longitude: 103.82)
     @State private var showingMapPicker = false
+    @State private var selectedAddress: String = ""
+
     
     // New: Segmented control state
     @State private var selectedMode: String = "New"
@@ -929,7 +936,7 @@ struct AddWorkout: View {
                 }
             } // toolbar bracket
             .sheet(isPresented: $showingMapPicker) {
-                MapPicker(coordinate: $pickerCoordinate)
+                MapPicker(coordinate: $pickerCoordinate, selectedAddress: $selectedAddress)
                     .environmentObject(locationManager)
                     .onAppear {
                         locationManager.requestLocation()
@@ -938,46 +945,10 @@ struct AddWorkout: View {
                         }
                     }
             }
-            .onChange(of: pickerCoordinate) { oldCoord, newCoord in
-                let clLocation = CLLocation(latitude: newCoord.latitude, longitude: newCoord.longitude)
-                CLGeocoder().reverseGeocodeLocation(clLocation, preferredLocale: nil) { placemarks, error in
-                    guard error == nil,
-                          let first = placemarks?.first
-                    else {
-                        DispatchQueue.main.async {
-                            self.location = String(
-                                format: "%.5f, %.5f",
-                                newCoord.latitude,
-                                newCoord.longitude
-                            )
-                        }
-                        return
-                    }
-                    // Building a displayable address from the placemark field
-                    var parts: [String] = []
-                    if let name = first.name {
-                        parts.append(name)
-                    } else if let street = first.thoroughfare {
-                        parts.append(street)
-                    }
-                    if let subLocality = first.subLocality {
-                        parts.append(subLocality)
-                    }
-                    if let city = first.locality {
-                        parts.append(city)
-                    }
-                    if let postal = first.postalCode {
-                        parts.append(postal)
-                    }
-                    if let country = first.country {
-                        parts.append(country)
-                    }
-                    let addressString = parts.joined(separator: ", ")
-                    DispatchQueue.main.async {
-                        self.location = addressString
-                    }
-                }
+            .onChange(of: selectedAddress) { oldAddress, newAddress in
+                self.location = newAddress
             }
+
         } // Navigation Stack Bracket
         .onAppear {
             // Only set pickerCoordinate default, don't request location yet

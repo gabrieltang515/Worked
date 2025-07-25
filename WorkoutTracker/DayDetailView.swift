@@ -29,7 +29,7 @@ struct DayDetailView: View {
         // Listing the workouts if they exist.
         List {
             ForEach(workoutsForDay) { workout in
-                NavigationLink(destination: WorkoutView(workout: workout, selectedTab: selectedTab, workoutTypes: workoutTypes, darkMode: darkMode, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)) {
+                NavigationLink(destination: WorkoutView(workout: workout, workoutTypes: workoutTypes, darkMode: darkMode, selectedTab: selectedTab, showDeleted: $showDeleted, showCompleted: $showCompleted, showIncomplete: $showIncomplete)) {
                     
                     HStack(alignment: .firstTextBaseline, spacing: 15) {
                         Text(workout.workoutType)
