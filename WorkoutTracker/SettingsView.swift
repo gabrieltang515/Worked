@@ -29,6 +29,9 @@ struct SettingsView: View {
     // MARK: – templates storage
     @AppStorage("workoutTemplates") private var workoutTemplatesData: Data = Data()
     @State private var workoutTemplates: [WorkoutTemplate] = []
+    
+    // For bottom bar managements
+    @State private var templatesIsActive = false
     @State private var showBottombar: Bool = true
 
     var body: some View {
@@ -45,6 +48,10 @@ struct SettingsView: View {
             if let encoded = try? JSONEncoder().encode(new) {
                 workoutTemplatesData = encoded
             }
+        }
+        .onChange(of: templatesIsActive) { oldValue, newValue in
+          // hide bar when pushing into Templates; show when coming back
+          showBottombar = !newValue
         }
     }
 
@@ -97,8 +104,7 @@ struct SettingsView: View {
     }
 
     @ViewBuilder private var workoutsSection: some View {
-        Section("Workout") {
-          Group {
+        Section(header: Text("Workout")) {
             NavigationLink {
               WorkoutTypeSetting(
                 workoutTypes: $workoutTypes,
@@ -112,20 +118,19 @@ struct SettingsView: View {
               Text("Categories")
             }
 
-            NavigationLink {
-              WorkoutTemplateSetting(
-                templates: $workoutTemplates,
-                darkMode: darkMode,
-                workoutTypes: $workoutTypes,
-                showBottombar: $showBottombar
-              )
-              .onAppear { showBottombar = false }
-              .onDisappear { showBottombar = true }
-            } label: {
-              Text("Templates")
-            }
+            Button("Templates") {
+                templatesIsActive = true
+              }
+            
+              .navigationDestination(isPresented: $templatesIsActive) {
+                                WorkoutTemplateSetting(
+                                  templates: $workoutTemplates,
+                                  darkMode: darkMode,
+                                  workoutTypes: $workoutTypes,
+                                  showBottombar: $showBottombar
+                                )
+              }
 
-          }
         }
     }
 
@@ -159,6 +164,7 @@ struct SettingsView: View {
                     showingSettings: $showingSettings,
                     darkMode: $darkMode
                 )
+                .padding(.top, 7)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             } else {
                 EmptyView()

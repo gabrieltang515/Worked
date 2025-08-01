@@ -195,6 +195,7 @@ struct EditWorkoutTemplateView: View {
     @State private var workoutType: String = "Run"
     @State private var location: String = ""
     @FocusState private var locationIsFocused: Bool
+    @FocusState private var descriptionIsFocused: Bool
     @StateObject private var locationManager = LocationManager()
     @State private var pickerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 1.35, longitude: 103.82)
     @State private var showingMapPicker = false
@@ -216,6 +217,7 @@ struct EditWorkoutTemplateView: View {
                         .padding(10)
                         .border(Color.gray)
                         .padding([.top, .bottom], 15)
+                        .focused($descriptionIsFocused)
                 }
                 Section("Location") {
                     HStack {
@@ -233,11 +235,22 @@ struct EditWorkoutTemplateView: View {
                         .cornerRadius(12)
                         .padding(2)
                     }
+                    
                     if location.count > 25 {
-                        Text("\(location)")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        HStack {
+                            Text("\(location)")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .padding(.top, 4)
+                            Spacer()
+                            Button(action: { location = "" }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                                    .imageScale(.small)
+                            }
+                            .buttonStyle(.plain)
                             .padding(.top, 4)
+                        }
                     }
                 }
                 Section {
@@ -263,6 +276,24 @@ struct EditWorkoutTemplateView: View {
                     }
 
                 }
+            }
+            .toolbar {
+              ToolbarItemGroup(placement: .topBarTrailing) {
+                Button {
+                  descriptionIsFocused = false
+                  locationIsFocused = false
+                } label: {
+                  Image(
+                    darkMode
+                      ? "icons8-keyboard-96-darkmode"
+                      : "icons8-keyboard-96-lightmode"
+                  )
+                  .resizable()
+                  .frame(width: 28, height: 28)
+                  .scaledToFit()
+                }
+                .foregroundStyle(.primary)
+              }
             }
             .onAppear {
                 workoutDescription = template.workoutDescription
