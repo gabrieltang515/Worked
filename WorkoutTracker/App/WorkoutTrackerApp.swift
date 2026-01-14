@@ -48,8 +48,7 @@ struct WorkoutTrackerApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
-    var body: some Scene {
-        WindowGroup {
+    var body: some Scene {         WindowGroup {
             ContentView()
                 .modelContainer(container)
                 .environmentObject(keyboardResponder) // Inject singleton
@@ -74,8 +73,8 @@ struct WorkoutTrackerApp: App {
                                 print("🔵 Access token: \(String(accessToken.prefix(10)))...")
                                 
                                 // Store tokens securely
-                                KeychainHelper.shared.save(Data(accessToken.utf8), service: "strava", account: "access_token")
-                                KeychainHelper.shared.save(Data(refreshToken.utf8), service: "strava", account: "refresh_token")
+                                _ = KeychainHelper.shared.save(Data(accessToken.utf8), service: "strava", account: "access_token")
+                                _ = KeychainHelper.shared.save(Data(refreshToken.utf8), service: "strava", account: "refresh_token")
                                 
                                 print("✅ Tokens stored in Keychain")
                             } else {

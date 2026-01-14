@@ -113,40 +113,13 @@
 		53FD23CC2BDBE08500AB41E4 /* WorkoutTracker */ = {
 			isa = PBXGroup;
 			children = (
+				E118332A2F173488003F6D55 /* Services */,
+				E11833292F17347D003F6D55 /* Utilities */,
+				E11833282F173476003F6D55 /* Views */,
+				E11833272F173468003F6D55 /* Models */,
+				E11833252F173449003F6D55 /* App */,
 				E1199B4E2DEF5C7C007DD5D7 /* WorkoutTracker.entitlements */,
 				E16D637F2C3D15BA0001E34B /* Info.plist */,
-				E1817DB52C52433600AB7CAB /* SwipeDownToDismissModifier.swift */,
-				E1DAC1D32E1FB13A0035711D /* KeyboardResponder.swift */,
-				E1ED01702E03115E00F842C6 /* AppDelegate.swift */,
-				E1F222F22C579DCD00DB8CA9 /* SwipeActionsAndAlertsModifiers.swift */,
-				53FD23E52BDE8CA100AB41E4 /* WorkoutTrackerApp.swift */,
-				E1429B252E1A4749002043D6 /* LapsedView.swift */,
-				E1429B272E1A4A88002043D6 /* UpcomingView.swift */,
-				E1429B292E1A4AE2002043D6 /* CalendarTabView.swift */,
-				E1199B4F2DF428DD007DD5D7 /* SyncToiCloud.swift */,
-				E1ED016D2E030DFA00F842C6 /* PushNotifications.swift */,
-				53FD23CF2BDBE08500AB41E4 /* ContentView.swift */,
-				E17C3F872E1972A400C9C2E5 /* CompletedView.swift */,
-				E1DAC1D52E2A52A60035711D /* LinkToStrava.swift */,
-				E1EFE0B02CFED689006BAB2D /* CalendarView.swift */,
-				E1BBF0D62DD8565100424719 /* DayDetailView.swift */,
-				E1DAC1D92E2AA70C0035711D /* KeychainHelper.swift */,
-				53FD23E32BDE74B700AB41E4 /* WorkoutsView.swift */,
-				E1F222F42C57D73100DB8CA9 /* WorkoutsViewHStack.swift */,
-				E176D78E2C48CF9500A665C7 /* EditWorkoutView.swift */,
-				53FD23DF2BDBE2ED00AB41E4 /* AddWorkout.swift */,
-				E16A785E2C3BF1620072143F /* ToolbarView.swift */,
-				E16A78602C3C27BC0072143F /* LocationFile.swift */,
-				53FD23E12BDCE42500AB41E4 /* WorkoutView.swift */,
-				53FD23DB2BDBE0C600AB41E4 /* Workout.swift */,
-				E187A01F2C3681F200D6AD12 /* BottomBarView.swift */,
-				53FD23E72BE3C53800AB41E4 /* SettingsView.swift */,
-				E176D7902C4A3E4B00A665C7 /* AppearanceSetting.swift */,
-				E176D7922C4A3F4600A665C7 /* WorkoutTypeSetting.swift */,
-				E176D7962C4BB3DC00A665C7 /* WorkoutTypeSettingPartOne.swift */,
-				E176D7982C4BB5EA00A665C7 /* WorkoutTypeSettingPartTwo.swift */,
-				E17C3F852E18E2F400C9C2E5 /* WorkoutTemplateSetting.swift */,
-				E1817DB12C4E308600AB7CAB /* FavouritesSetting.swift */,
 				53FD23D12BDBE09000AB41E4 /* Assets.xcassets */,
 				53FD23D32BDBE09000AB41E4 /* Preview Content */,
 			);
@@ -159,6 +132,121 @@
 				53FD23D42BDBE09000AB41E4 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E11833252F173449003F6D55 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				53FD23E52BDE8CA100AB41E4 /* WorkoutTrackerApp.swift */,
+				E1ED01702E03115E00F842C6 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		E11833272F173468003F6D55 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				53FD23DB2BDBE0C600AB41E4 /* Workout.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E11833282F173476003F6D55 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E11833302F1734C4003F6D55 /* Components */,
+				E118332F2F1734BE003F6D55 /* Settings */,
+				E118332E2F1734B7003F6D55 /* Calendar */,
+				E118332D2F1734AF003F6D55 /* Detail */,
+				E118332C2F1734A7003F6D55 /* Tabs */,
+				E118332B2F1734A3003F6D55 /* Main */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E11833292F17347D003F6D55 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E1DAC1D32E1FB13A0035711D /* KeyboardResponder.swift */,
+				E1DAC1D92E2AA70C0035711D /* KeychainHelper.swift */,
+				E16A78602C3C27BC0072143F /* LocationFile.swift */,
+				E1817DB52C52433600AB7CAB /* SwipeDownToDismissModifier.swift */,
+				E1F222F22C579DCD00DB8CA9 /* SwipeActionsAndAlertsModifiers.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E118332A2F173488003F6D55 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E1199B4F2DF428DD007DD5D7 /* SyncToiCloud.swift */,
+				E1ED016D2E030DFA00F842C6 /* PushNotifications.swift */,
+				E1DAC1D52E2A52A60035711D /* LinkToStrava.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E118332B2F1734A3003F6D55 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				53FD23CF2BDBE08500AB41E4 /* ContentView.swift */,
+				53FD23E32BDE74B700AB41E4 /* WorkoutsView.swift */,
+				E1F222F42C57D73100DB8CA9 /* WorkoutsViewHStack.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		E118332C2F1734A7003F6D55 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				53FD23E72BE3C53800AB41E4 /* SettingsView.swift */,
+				E1429B252E1A4749002043D6 /* LapsedView.swift */,
+				E1429B292E1A4AE2002043D6 /* CalendarTabView.swift */,
+				E1429B272E1A4A88002043D6 /* UpcomingView.swift */,
+				E17C3F872E1972A400C9C2E5 /* CompletedView.swift */,
+				E1EFE0B02CFED689006BAB2D /* CalendarView.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		E118332D2F1734AF003F6D55 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				E1BBF0D62DD8565100424719 /* DayDetailView.swift */,
+				E187A01F2C3681F200D6AD12 /* BottomBarView.swift */,
+				E176D78E2C48CF9500A665C7 /* EditWorkoutView.swift */,
+				53FD23E12BDCE42500AB41E4 /* WorkoutView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		E118332E2F1734B7003F6D55 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		E118332F2F1734BE003F6D55 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E176D7902C4A3E4B00A665C7 /* AppearanceSetting.swift */,
+				E1817DB12C4E308600AB7CAB /* FavouritesSetting.swift */,
+				E176D7922C4A3F4600A665C7 /* WorkoutTypeSetting.swift */,
+				E176D7962C4BB3DC00A665C7 /* WorkoutTypeSettingPartOne.swift */,
+				E176D7982C4BB5EA00A665C7 /* WorkoutTypeSettingPartTwo.swift */,
+				E17C3F852E18E2F400C9C2E5 /* WorkoutTemplateSetting.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		E11833302F1734C4003F6D55 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E16A785E2C3BF1620072143F /* ToolbarView.swift */,
+				53FD23DF2BDBE2ED00AB41E4 /* AddWorkout.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

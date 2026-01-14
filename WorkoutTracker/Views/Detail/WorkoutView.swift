@@ -318,6 +318,6 @@ struct WorkoutView: View {
         dismiss()
     }
     
-} // Workout View Struct Bracket
+} 
 
 

@@ -106,8 +106,8 @@ struct LinkToStrava: View {
             if let accessToken = json["access_token"] as? String,
                let refreshToken = json["refresh_token"] as? String {
                 // Store tokens securely
-                KeychainHelper.shared.save(Data(accessToken.utf8), service: "strava", account: "access_token")
-                KeychainHelper.shared.save(Data(refreshToken.utf8), service: "strava", account: "refresh_token")
+                _ = KeychainHelper.shared.save(Data(accessToken.utf8), service: "strava", account: "access_token")
+                _ = KeychainHelper.shared.save(Data(refreshToken.utf8), service: "strava", account: "refresh_token")
                 DispatchQueue.main.async {
                     authResult = "Success! Strava account linked."
                 }
